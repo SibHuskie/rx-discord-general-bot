@@ -284,7 +284,7 @@ async def rollme(ctx, role = None):
     msg.title = ""
     msg.set_footer(text=footer_text)
     if role == None:
-        msg.add_field(name=error_img, value="Please choose a role you would like to add or remove.\nRoles: `hell` - Gives you access to the hell channels where there are no rules.\n`nsfw` - Gives you access to NSFW channels.\n`partner` - Gives you access to the partnerships channels.\n`anti-lvls` - You will not level up if you have this role.")
+        msg.add_field(name=error_img, value="Please choose a role you would like to add or remove.\nRoles:\n`hell` - Gives you access to the hell channels where there are no rules.\n`nsfw` - Gives you access to NSFW channels.")
     else:
         if role == "hell":
             if hell in author.roles:
@@ -300,13 +300,6 @@ async def rollme(ctx, role = None):
             else:
                 await client.add_roles(author, nsfw)
                 msg.add_field(name=":inbox_tray: ", value="I have added the `NSFW Access` role and you now have access to the NSFW channels.")
-        elif role == "partner":
-            if partner in author.roles:
-                await client.remove_roles(author, partner)
-                msg.add_field(name=":outbox_tray: ", value="I have removed the `Partner Access` role and you no longer have access to the partnerships channels.")
-            else:
-                await client.add_roles(author, partner)
-                msg.add_field(name=":inbox_tray: ", value="I have added the `Partner Access` role and you now have access to the partnerships channels.")
         elif role == "anti-lvls":
             if lvl in author.roles:
                 await client.remove_roles(author, lvl)
@@ -315,7 +308,7 @@ async def rollme(ctx, role = None):
                 msg.add_field(name=":inbox_tray: ", value="I have added the `Anti-LvLs` role and you no longer will level up.")
                 await client.add_roles(author, lvl)
         else:
-            msg.add_field(name=error_img, value="Invalid role given!\nRoles: `hell` - Gives you access to the hell channels where there are no rules.\n`nsfw` - Gives you access to NSFW channels.\n`partner` - Gives you access to the partnerships channels.")
+            msg.add_field(name=error_img, value="Invalid role given!\nRoles:\n`hell` - Gives you access to the hell channels where there are no rules.\n`nsfw` - Gives you access to NSFW channels.")
     await client.say(embed=msg)
 
 # }apply <helper/mod/admin/manager/adbot>
