@@ -284,7 +284,7 @@ async def rollme(ctx, role = None):
     msg.title = ""
     msg.set_footer(text=footer_text)
     if role == None:
-        msg.add_field(name=error_img, value="Please choose a role you would like to add or remove.\nRoles:\n`hell` - Gives you access to the hell channels where there are no rules.\n`nsfw` - Gives you access to NSFW channels.")
+        msg.add_field(name=error_img, value="Please choose a role you would like to add or remove.\nRoles:\n`hell` - Gives you access to the hell channels where there are no rules.\n`nsfw` - Gives you access to NSFW channels.\n`anti-lvls` - Disables leveling for you.")
     else:
         if role == "hell":
             if hell in author.roles:
@@ -308,7 +308,7 @@ async def rollme(ctx, role = None):
                 msg.add_field(name=":inbox_tray: ", value="I have added the `Anti-LvLs` role and you no longer will level up.")
                 await client.add_roles(author, lvl)
         else:
-            msg.add_field(name=error_img, value="Invalid role given!\nRoles:\n`hell` - Gives you access to the hell channels where there are no rules.\n`nsfw` - Gives you access to NSFW channels.")
+            msg.add_field(name=error_img, value="Invalid role given!\nRoles:\n`hell` - Gives you access to the hell channels where there are no rules.\n`nsfw` - Gives you access to NSFW channels.`anti-lvls` - Disables leveling for you.")
     await client.say(embed=msg)
 
 # }apply <helper/mod/admin/manager/adbot>
