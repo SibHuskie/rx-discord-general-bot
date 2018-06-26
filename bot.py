@@ -43,7 +43,6 @@ manager_role = '453196026547929088'
 cbot_role = '453247674674577408'
 hell_role = '453247719067090944'
 nsfw_role = '453247786637590570'
-partner2_role = '453247829855567872'
 lvl0_role = '453653105696047105'
 error_img = ':octagonal_sign:'
 release_date = '?'
@@ -280,7 +279,6 @@ async def rollme(ctx, role = None):
     author = ctx.message.author
     hell = discord.utils.get(ctx.message.server.roles, id=hell_role)
     nsfw = discord.utils.get(ctx.message.server.roles, id=nsfw_role)
-    partner = discord.utils.get(ctx.message.server.roles, id=partner2_role)
     lvl = discord.utils.get(ctx.message.server.roles, id=lvl0_role)
     msg = discord.Embed(colour=0x210150, description= "")
     msg.title = ""
