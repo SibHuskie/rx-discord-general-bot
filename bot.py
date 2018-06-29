@@ -273,44 +273,6 @@ async def ad(ctx):
     msg.add_field(name=":a: :regional_indicator_d: ", value=m)
     await client.say(embed=msg)
 
-# }rollme <role>
-@client.command(pass_context=True)
-async def rollme(ctx, role = None):
-    author = ctx.message.author
-    hell = discord.utils.get(ctx.message.server.roles, id=hell_role)
-    nsfw = discord.utils.get(ctx.message.server.roles, id=nsfw_role)
-    lvl = discord.utils.get(ctx.message.server.roles, id=lvl0_role)
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
-    msg.set_footer(text=footer_text)
-    if role == None:
-        msg.add_field(name=error_img, value="Please choose a role you would like to add or remove.\nRoles:\n`hell` - Gives you access to the hell channels where there are no rules.\n`nsfw` - Gives you access to NSFW channels.\n`anti-lvls` - Disables leveling for you.")
-    else:
-        if role == "hell":
-            if hell in author.roles:
-                await client.remove_roles(author, hell)
-                msg.add_field(name=":outbox_tray: ", value="I have removed the `Hell Access` role and you no longer have access to the hell channels.")
-            else:
-                await client.add_roles(author, hell)
-                msg.add_field(name=":inbox_tray: ", value="I have added the `Hell Access` role and you now have access to the hell channels.")
-        elif role == "nsfw":
-            if nsfw in author.roles:
-                await client.remove_roles(author, nsfw)
-                msg.add_field(name=":outbox_tray: ", value="I have removed the `NSFW Access` role and you no longer have access to the NSFW channels.")
-            else:
-                await client.add_roles(author, nsfw)
-                msg.add_field(name=":inbox_tray: ", value="I have added the `NSFW Access` role and you now have access to the NSFW channels.")
-        elif role == "anti-lvls":
-            if lvl in author.roles:
-                await client.remove_roles(author, lvl)
-                msg.add_field(name=":outbox_tray: ", value="I have removed the `Anti-LvLs` role and you now can continue to level up.")
-            else:
-                msg.add_field(name=":inbox_tray: ", value="I have added the `Anti-LvLs` role and you no longer will level up.")
-                await client.add_roles(author, lvl)
-        else:
-            msg.add_field(name=error_img, value="Invalid role given!\nRoles:\n`hell` - Gives you access to the hell channels where there are no rules.\n`nsfw` - Gives you access to NSFW channels.`anti-lvls` - Disables leveling for you.")
-    await client.say(embed=msg)
-
 # }apply <helper/mod/admin/manager/adbot>
 @client.command(pass_context=True)
 async def apply(ctx, option = None):
