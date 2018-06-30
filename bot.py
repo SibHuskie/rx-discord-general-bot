@@ -160,15 +160,17 @@ async def ping(ctx, option = None):
         msg.add_field(name=error_img, value="Please specify which bot's ping you want to check.\nOptions: `g`, `f`, `s`, `all`.")
     elif option == "g":
         msg.add_field(name=":satellite: ", value="My ping: `{}ms`.".format(round((t2-t1)*1000)))
+        await client.say(embed=msg)
     elif option == "f":
         print("")
     elif option == "s":
         print("")
     elif option == "all":
         msg.add_field(name=":satellite: ", value="My ping: `{}ms`.".format(round((t2-t1)*1000)))
+        await client.say(embed=msg)
     else:
         msg.add_field(name=error_img, value="Invalid option given!\nOptions: `g`, `f`, `s`, `all`.")
-    await client.say(embed=msg)
+        await client.say(embed=msg)
 
 # }invite
 @client.command(pass_context=True)
