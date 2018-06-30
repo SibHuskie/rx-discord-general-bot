@@ -578,6 +578,32 @@ async def dp(ctx, target = None, userName: discord.Member = None):
     else:
         msg.add_field(name=error_img, value="This command can only be used by the staff!")
     await client.say(embed=msg)
+    
+''' COMMANDS FOR ADMIN '''
+# }rawsay <text>
+@client.command(pass_context=True)
+async def rawsay(ctx, *, args = None):
+    author = ctx.message.author
+    admin = discord.utils.get(ctx.message.server.roles, id=admin_role)
+    manager = discord.utils.get(ctx.message.server.roles, id=manager_role)
+    owner = discord.utils.get(ctx.message.server.roles, id=owner_role)
+    msg = discord.Embed(colour=0x210150, description= "")
+    msg.title = ""
+    msg.set_footer(text=footer_text)
+    if admin in author.roles or manager in author.roles or owner in author.roles:
+        if args == None:
+            msg.add_field(name=error_img, value="No text given!")
+            await client.say(embed=msg)
+        else:
+            if len(str(args)) > 1990:
+                msg.add_field(name=error_img, value="The text cannot be longer than 1990 characters.")
+                await client.say(embed=msg)
+            else:
+                await client.say("{}".format(args))
+                await client.delete_message(ctx.message)
+    else:
+        msg.add_field(name=error_img, value="This command can only be used by Administrators, Managers and Owners!")
+        await client.say(embed=msg)
 
 #######################
 client.run(os.environ['BOT_TOKEN'])
