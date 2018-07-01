@@ -184,7 +184,7 @@ async def invite(ctx):
 # }suggest <suggestion>
 @client.command(pass_context=True)
 async def suggest(ctx, *, args = None):
-    author = ctx.message.server
+    author = ctx.message.author
     channel = client.get_channel('453192365096697897')
     msg = discord.Embed(colour=0x210150, description= "")
     msg.title = ""
