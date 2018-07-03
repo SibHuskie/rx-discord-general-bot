@@ -458,9 +458,9 @@ async def say(ctx, *, args = None):
         await client.say(embed=msg)
 
 ''' COMMANDS FOR STAFF '''
-# }p <user> <message>
+# }p <user>
 @client.command(pass_context=True)
-async def p(ctx, userName: discord.Member = None, *, args = None):
+async def p(ctx, userName: discord.Member = None):
     author = ctx.message.author
     helper = discord.utils.get(ctx.message.server.roles, id=helper_role)
     mod = discord.utils.get(ctx.message.server.roles, id=mod_role)
@@ -474,109 +474,18 @@ async def p(ctx, userName: discord.Member = None, *, args = None):
     chnl = client.get_channel('453192314714849290')
     l = client.get_channel(logs)
     if helper in author.roles or mod in author.roles or admin in author.roles or manager in author.roles or owner in author.roles:
-        if userName == None or args == None:
-            msg.add_field(name=error_img, value="Not all arguments were given!\nExample: `}p @Jimmy A badass server where you can't do much but you should totally join, we got free candy and wifi.`.")
+        if userName == None:
+            msg.add_field(name=error_img, value="Please mention the person you want to give/remove the partner role to/from.")
         else:
-            if len(str(args)) > 1900:
-                msg.add_field(name=error_img, value="The message cannot be longer than 1900 characters.")
-            else:
-                try:
-                    a = ctx.message.server.get_member(userName.id)
+            try:
+                if partner in userName.roles:
+                    await client.remove_roles(userName, partner)
+                    msg.add_field(name=":handshake: ", value="<@{}> removed the partner role from <@{}>.".format(author.id, userName.id))
+                else:
                     await client.add_roles(userName, partner)
-                    m = discord.Embed(colour=0x009BFF, description= "")
-                    m.title = ""
-                    m.set_footer(text=footer_text)
-                    m.add_field(name=":handshake: ", value="{}".format(args))
-                    await client.send_message(chnl, embed=m)
-                    msg.add_field(name=":handshake: ", value="<@{}> partnered with <@{}>!".format(author.id, userName.id))
-                    o = "```diff"
-                    o += "\n- PARTNERSHIP -"
-                    o += "\n+ Author: {} ### {}".format(author, author.id)
-                    o += "\n+ Target: {} ### {}".format(userName, userName.id)
-                    o += "\n```"
-                    await client.send_message(l, o)
-                except:
-                    msg.add_field(name=error_img, value="That user has not been found!\nYou can use `}fp <message>` to force the bot to send the partnership message.")
-    else:
-        msg.add_field(name=error_img, value="This command can only be used by the staff!")
-    await client.say(embed=msg)
-
-# }fp <message>
-@client.command(pass_context=True)
-async def fp(ctx, *, args = None):
-    author = ctx.message.author
-    helper = discord.utils.get(ctx.message.server.roles, id=helper_role)
-    mod = discord.utils.get(ctx.message.server.roles, id=mod_role)
-    admin = discord.utils.get(ctx.message.server.roles, id=admin_role)
-    manager = discord.utils.get(ctx.message.server.roles, id=manager_role)
-    owner = discord.utils.get(ctx.message.server.roles, id=owner_role)
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
-    msg.set_footer(text=footer_text)
-    chnl = client.get_channel('453192314714849290')
-    l = client.get_channel(logs)
-    if helper in author.roles or mod in author.roles or admin in author.roles or manager in author.roles or owner in author.roles:
-        if args == None:
-            msg.add_field(name=error_img, value="No message given!\nExample: `}fp A badass server where you can't do much but you should totally join, we got free candy and wifi.`.")
-        else:
-            if len(str(args)) > 1900:
-                msg.add_field(name=error_img, value="The message cannot be longer than 1900 characters.")
-            else:
-                m = discord.Embed(colour=0x009BFF, description= "")
-                m.title = ""
-                m.set_footer(text=footer_text)
-                m.add_field(name=":handshake: ", value="{}".format(args))
-                await client.send_message(chnl, embed=m)
-                msg.add_field(name=":handshake: ", value="<@{}> forced a partnership!".format(author.id))
-                o = "```diff"
-                o += "\n- FORCED PARTNERSHIP -"
-                o += "\n+ Author: {} ### {}".format(author, author.id)
-                o += "\n```"
-                await client.send_message(l, o)
-    else:
-        msg.add_field(name=error_img, value="This command can only be used by the staff!")
-    await client.say(embed=msg)
-
-# }dp <user> <message id>
-@client.command(pass_context=True)
-async def dp(ctx, target = None, userName: discord.Member = None):
-    author = ctx.message.author
-    helper = discord.utils.get(ctx.message.server.roles, id=helper_role)
-    mod = discord.utils.get(ctx.message.server.roles, id=mod_role)
-    admin = discord.utils.get(ctx.message.server.roles, id=admin_role)
-    manager = discord.utils.get(ctx.message.server.roles, id=manager_role)
-    owner = discord.utils.get(ctx.message.server.roles, id=owner_role)
-    partner = discord.utils.get(ctx.message.server.roles, id=partner_role)
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
-    msg.set_footer(text=footer_text)
-    chnl = client.get_channel('453192314714849290')
-    l = client.get_channel(logs)
-    if helper in author.roles or mod in author.roles or admin in author.roles or manager in author.roles or owner in author.roles:
-        if userName == None and target == None:
-            msg.add_field(name=error_img, value="No arguments given!\nExamples:\n`}dp 453923823272722442 @Jimmy `.\n`}dp 453923823272722442`.\n`}dp # @Jimmy`.")
-        else:
-            try:
-                await client.remove_roles(userName, partner)
-                msg.add_field(name=":wave: ", value="<@{}> deleted a partnership made with <@{}>!".format(author.id, userName.id))
+                    msg.add_field(name=":handshake: ", value="<@{}> gave the partner role to <@{}>.".format(author.id, userName.id))
             except:
-                msg.add_field(name=":wave: ", value="<@{}> deleted a partnership!".format(author.id))
-            try:
-                async for message in client.logs_from(chnl):
-                    if message.id == target:
-                        await client.delete_message(message)
-                        break
-                    else:
-                        print("")
-            except:
-                print("")
-            o = "```diff"
-            o += "\n- DELETED PARTNERSHIP -"
-            o += "\n+ Author: {} ### {}".format(author, author.id)
-            o += "\n+ Target: {}".format(userName)
-            o += "\n+ Message: {}".format(target)
-            o += "\n```"
-            await client.send_message(l, o)
+                msg.add_field(name=error_img, value="There was an error while trying to give/take the partner role to/from that user.")
     else:
         msg.add_field(name=error_img, value="This command can only be used by the staff!")
     await client.say(embed=msg)
