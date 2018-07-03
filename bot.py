@@ -157,7 +157,7 @@ async def ping(ctx, option = None):
     await client.send_typing(channel)
     t2 = time.perf_counter()
     if option == None:
-        msg.add_field(name=error_img, value="Please specify which bot's ping you want to check.\nOptions: `g`, `f`, `s`, `all`.")
+        msg.add_field(name=error_img, value="Please specify which bot's ping you want to check.\nOptions: `g`, `f`, `s`, `c`, `all`.")
     elif option == "g":
         msg.add_field(name=":satellite: ", value="My ping: `{}ms`.".format(round((t2-t1)*1000)))
         await client.say(embed=msg)
@@ -165,11 +165,13 @@ async def ping(ctx, option = None):
         print("")
     elif option == "s":
         print("")
+    elif option == "c":
+        print("")
     elif option == "all":
         msg.add_field(name=":satellite: ", value="My ping: `{}ms`.".format(round((t2-t1)*1000)))
         await client.say(embed=msg)
     else:
-        msg.add_field(name=error_img, value="Invalid option given!\nOptions: `g`, `f`, `s`, `all`.")
+        msg.add_field(name=error_img, value="Invalid option given!\nOptions: `g`, `f`, `s`, `c`, `all`.")
         await client.say(embed=msg)
 
 # }invite
