@@ -80,6 +80,7 @@ async def on_member_join(userName: discord.User):
     m2 += "\n:small_orange_diamond: If you are here to partner with the server, please DM a helper, moderator or administrator instead of the managers and owners."
     m2 += "\n:small_blue_diamond: Thanks for joining!"
     await client.send_message(client.get_channel("453192466716164137"), ":chart_with_upwards_trend: {}".format(m))
+    server = client.get_server('452865346081128448')
     await client.send_message(client.get_channel("453192385795588096"), ":large_blue_circle: `{}` joined the server! Now we have {} members.".format(userName, len(server.members)))
     try:
         await client.send_message(userName, "{}".format(m2))
@@ -88,6 +89,7 @@ async def on_member_join(userName: discord.User):
 
 @client.async_event
 async def on_member_remove(userName: discord.User):
+    server = client.get_server('452865346081128448')
     await client.send_message(client.get_channel("453192385795588096"), ":red_circle: `{}` left the server! Now we have {} members.".format(userName, len(server.members)))
 
 ''' COMMANDS FOR EVERYONE '''
