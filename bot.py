@@ -71,10 +71,10 @@ async def on_ready():
 # EVENT - JOIN / LEAVE
 @client.async_event
 async def on_member_join(userName: discord.User):
-    m = "Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay."
+    m = "Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay.".format(userName.id)
     m2 = "https://i.imgur.com/KIhV6UG.png"
     m2 += "\n**~~__= = = = = = = = = = = = = = = = = = =__~~**"
-    m2 += "\n:small_red_triangle_down: Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay and have fun."
+    m2 += "\n:small_red_triangle_down: Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay and have fun.".format(userName.id)
     m2 += "\n:small_red_triangle:All the information is in the `#rules-and-info` channel, but feel free to ask the staff about anything you want to know."
     m2 += "\n**~~__= = = = = = = = = = = = = = = = = = =__~~**"
     m2 += "\n:small_orange_diamond: If you are here to partner with the server, please DM a helper, moderator or administrator instead of the managers and owners."
