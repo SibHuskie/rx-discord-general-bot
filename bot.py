@@ -71,68 +71,23 @@ async def on_ready():
 # EVENT - JOIN / LEAVE
 @client.async_event
 async def on_member_join(userName: discord.User):
-    joins = ["**{}** joined the game!".format(userName.name),
-             "**{}**, we've been expecting you...".format(userName.name),
-             "**{}**, hey! We hope you brought pizza!".format(userName.name),
-             "**{}**, welcome!".format(userName.name),
-             "**{}** is here! Everyone, look busy!".format(userName.name),
-             "It's dangerous to go alone, take **{}** with you!".format(userName.name),
-             "Shut up! **{}** is here!".format(userName.name),
-             "A wild **{}** has appeared!".format(userName.name),
-             "**{}** has been summoned!".format(userName.name),
-             "Everyone, gather around. **{}** came to visit us!".format(userName.name),
-             "**{}** has joined your party!".format(userName.name),
-             "**{}** has spawned!".format(userName.name),
-             "Holy shit! **{}** is here!".format(userName.name),
-             "Roses are red, violets are blue, **{}** joined the server, you should invite your friends too!".format(userName.name),
-             "**{}** just slid into the server!".format(userName.name),
-             "**{}** is ready and waiting!".format(userName.name),
-             "Achievement earned: Find **{}**.".format(userName.name),
-             "**{}** joined your team! Can I get a heal?".format(userName.name),
-             "**{}** is here! Leave your weapons by the door.".format(userName.name),
-             "Brace yourselves, here comes **{}**!".format(userName.name),
-             "**{}** joined the server! Seems OP - please nerf.".format(userName.name),
-             "Hey, **{}**! About time you joined.".format(userName.name),
-             "Welcome **{}**. Make yourself at home.".format(userName.name),
-             "**{}** joined! Please no hacks!".format(userName.name),
-             "**{}** joined the server! Seems legit.".format(userName.name)]
-    await client.send_message(client.get_channel("453192466716164137"), ":chart_with_upwards_trend: {}".format(random.choice(joins)))
-    server = client.get_server('452865346081128448')
+    m = "Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay."
+    m2 = "https://i.imgur.com/KIhV6UG.png"
+    m2 += "\n**~~__= = = = = = = = = = = = = = = = = = =__~~**"
+    m2 += "\n:small_red_triangle_down: Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay and have fun."
+    m2 += "\n:small_red_triangle:All the information is in the `#rules-and-info` channel, but feel free to ask the staff about anything you want to know."
+    m2 += "\n**~~__= = = = = = = = = = = = = = = = = = =__~~**"
+    m2 += "\n:small_orange_diamond: If you are here to partner with the server, please DM a helper, moderator or administrator instead of the managers and owners."
+    m2 += "\n:small_blue_diamond: Thanks for joining!"
+    await client.send_message(client.get_channel("453192466716164137"), ":chart_with_upwards_trend: {}".format(m))
     await client.send_message(client.get_channel("453192385795588096"), ":large_blue_circle: `{}` joined the server! Now we have {} members.".format(userName, len(server.members)))
     try:
-        await client.send_message(userName, "https://i.imgur.com/KIhV6UG.png\n \nWelcome to **{}**, {}! We hope you enjoy your stay and have fun.\n \nAll information is in the `#rules-and-info` channel, but feel free to ask the staff about anything you want to know.".format(server.name, userName.name))
+        await client.send_message(userName, "{}".format(m2))
     except:
         print("")
 
 @client.async_event
 async def on_member_remove(userName: discord.User):
-    leaves = ["**{}** left! Please insert a coin to continue.".format(userName.name),
-              "We lost **{}**! Do not give up yet!".format(userName.name),
-              "**{}** died!".format(userName.name),
-              "**{}** left the server! Everyone, get back to work.".format(userName.name),
-              "We will miss you, **{}**!".format(userName.name),
-              "Achievement get: Loose **{}**!".format(userName.name),
-              "Good luck, **{}**, you'll need it on your journey!".format(userName.name),
-              "**{}** left the server!".format(userName.name),
-              "Wait, where did **{}** go?".format(userName.name),
-              "Our **{}** has been killed!".format(userName.name),
-              "Your **{}** was destroyed!".format(userName.name),
-              "And so **{}** went on their journey to become the wizard king!".format(userName.name),
-              "No, **{}**! We lost them...".format(userName.name),
-              "**{}** left the game!".format(userName.name),
-              "**{}** left your party!".format(userName.name),
-              "**{}** left the server! Shut up and listen.".format(userName.name),
-              "**{}**, you will be remembered.".format(userName.name),
-              "**{}**, wait! What about our deal?!".format(userName.name),
-              "Damn! Not **{}** too!".format(userName.name),
-              "**{}** left the server! Did I do something wrong?".format(userName.name),
-              "Swoooosh, **{}** just flew away.".format(userName.name),
-              "Hey, **{}**! Where do you- too late...".format(userName.name),
-              "You'll be back, **{}**! I'll be waiting!".format(userName.name),
-              "Error 404: **{}** not found!".format(userName.name),
-              "No one really liked you anyway, **{}**... except me...".format(userName.name)]
-    await client.send_message(client.get_channel("453192466716164137"), ":chart_with_downwards_trend: {}".format(random.choice(leaves)))
-    server = client.get_server('452865346081128448')
     await client.send_message(client.get_channel("453192385795588096"), ":red_circle: `{}` left the server! Now we have {} members.".format(userName, len(server.members)))
 
 ''' COMMANDS FOR EVERYONE '''
