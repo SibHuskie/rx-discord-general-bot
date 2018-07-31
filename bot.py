@@ -83,7 +83,14 @@ async def on_member_join(userName: discord.User):
     server = client.get_server('452865346081128448')
     await client.send_message(client.get_channel("453192385795588096"), ":large_blue_circle: `{}` joined the server! Now we have {} members.".format(userName, len(server.members)))
     try:
+        dr = discord.utils.get(server.roles, id=member_role)
+        gr = discord.utils.get(server.roles, id=announcement_role)
+        ar = discord.utils.get(server.roles, id=giveaway_role)
         await client.send_message(userName, "{}".format(m2))
+        member = server.get_member(userName.id)
+        await client.add_roles(member, dr)
+        await client.add_roles(member, gr)
+        await client.add_roles(member, ar)
     except:
         print("")
 
