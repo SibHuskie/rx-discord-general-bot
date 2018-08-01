@@ -45,6 +45,8 @@ hell_role = '453247719067090944'
 nsfw_role = '453247786637590570'
 lvl0_role = '453653105696047105'
 error_img = ':octagonal_sign:'
+announcement_role = '473173927213137921'
+giveaway_role = '473173863698661386'
 release_date = '25th of June, 2018'
 banner = "https://i.imgur.com/rzWqGdW.png"
 logs = '453219479963303936'
@@ -86,11 +88,11 @@ async def on_member_join(userName: discord.User):
         dr = discord.utils.get(server.roles, id=member_role)
         gr = discord.utils.get(server.roles, id=announcement_role)
         ar = discord.utils.get(server.roles, id=giveaway_role)
-        await client.send_message(userName, "{}".format(m2))
         member = server.get_member(userName.id)
         await client.add_roles(member, dr)
         await client.add_roles(member, gr)
         await client.add_roles(member, ar)
+        await client.send_message(userName, "{}".format(m2))
     except:
         print("")
 
