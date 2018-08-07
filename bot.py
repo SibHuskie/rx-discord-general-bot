@@ -24,6 +24,7 @@ bot1_role = '453194562379186176'
 bot2_role = '453195460346380288'
 owner_role = '453194638077984768'
 partner_role = '453194705732239360'
+pmanager_role = '473812644021927946'
 lvl2_role = '453194792457732096'
 lvl5_role = '453195170662449152'
 lvl10_role = '453195184327491594'
@@ -436,12 +437,13 @@ async def p(ctx, userName: discord.Member = None):
     manager = discord.utils.get(ctx.message.server.roles, id=manager_role)
     owner = discord.utils.get(ctx.message.server.roles, id=owner_role)
     partner = discord.utils.get(ctx.message.server.roles, id=partner_role)
+    pmanager = discord.utils.get(ctx.message.server.roles, id=pmanager_role)
     msg = discord.Embed(colour=0x210150, description= "")
     msg.title = ""
     msg.set_footer(text=footer_text)
     chnl = client.get_channel('453192314714849290')
     l = client.get_channel(logs)
-    if helper in author.roles or mod in author.roles or admin in author.roles or manager in author.roles or owner in author.roles:
+    if helper in author.roles or mod in author.roles or admin in author.roles or manager in author.roles or owner in author.roles or pmanager in author.roles:
         if userName == None:
             msg.add_field(name=error_img, value="Please mention the person you want to give/remove the partner role to/from.")
         else:
