@@ -23,8 +23,8 @@ member_role = '453194601247801354'
 bot1_role = '453194562379186176'
 bot2_role = '453195460346380288'
 owner_role = '453194638077984768'
-partner_role = '453194705732239360'
 pmanager_role = '473812644021927946'
+partner_role = '453194705732239360'
 lvl2_role = '453194792457732096'
 lvl5_role = '453195170662449152'
 lvl10_role = '453195184327491594'
@@ -41,59 +41,57 @@ helper_role = '453195469309476877'
 mod_role = '453195518785486858'
 admin_role = '453195993987416064'
 manager_role = '453196026547929088'
-cbot_role = '453247674674577408'
-hell_role = '453247719067090944'
-nsfw_role = '453247786637590570'
 lvl0_role = '453653105696047105'
-error_img = ':octagonal_sign:'
 announcement_role = '473173927213137921'
 giveaway_role = '473173863698661386'
+error_e = ':octagonal_sign:'
 release_date = '25th of June, 2018'
-banner = "https://i.imgur.com/rzWqGdW.png"
+banner = "https://i.imgur.com/rVvSG5L.png"
 logs = '453219479963303936'
 default_invite = 'https://discord.gg/UBh9FpK'
+requested = []
 
 ''''''
 
 # EVENT - TELLS YOU WHEN THE BOT TURNS ON
 @client.event
 async def on_ready():
+    async for i in client.logs_from(client.get_channel('481865549505232906'), limit=100000000):
+        requested.append(i.content)
     t1 = time.perf_counter()
-    print("============================================================")
-    print("X - GENERAL")
-    print("============================================================")
-    print("Name: {}".format(client.user.name))
-    print("ID: {}".format(client.user.id))
-    print("============================================================")
-    await client.change_presence(game=discord.Game(name="General Tasks.exe"))
+    print("[][][][][][][][][][][][][][]")
+    print("[]Logged in!              []")
+    print("[][][][][][][][][][][][][][]")
+    print("[]Name: X General         []")
+    print("[]ID: 453210550399401984  []")
+    print("[][][][][][][][][][][][][][]")
+    await client.change_presence(game=discord.Game(name="with Task Manager"))
     await client.wait_until_ready()
     t2 = time.perf_counter()
-    print("Ping: {}".format(round((t2-t1)*1000)))
-    print("============================================================")
+    print("[]Ping: {}".format(round((t2-t1)*1000)))
+    print("[][][][][][][][][][][][][][]")
 
 # EVENT - JOIN / LEAVE
 @client.async_event
 async def on_member_join(userName: discord.User):
     m = "Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay.".format(userName.id)
-    m2 = "https://i.imgur.com/KIhV6UG.png"
-    m2 += "\n**~~__= = = = = = = = = = = = = = = = = = =__~~**"
-    m2 += "\n:small_red_triangle_down: Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay and have fun.".format(userName.id)
-    m2 += "\n:small_red_triangle:All the information is in the `#rules-and-info` channel, but feel free to ask the staff about anything you want to know."
-    m2 += "\n**~~__= = = = = = = = = = = = = = = = = = =__~~**"
-    m2 += "\n:small_orange_diamond: If you are here to partner with the server, please DM a helper, moderator or administrator instead of the managers and owners."
-    m2 += "\n:small_blue_diamond: Thanks for joining!"
-    await client.send_message(client.get_channel("453192466716164137"), ":chart_with_upwards_trend: {}".format(m))
-    server = client.get_server('452865346081128448')
+    m2 = "https://i.imgur.com/QyY8owZ.png"
+    m2 += "\n**~~= = = = = = = = = = = = = = = = = = =~~**"
+    m2 += "\nWelcome to **Realm ✘**, {}! We hope you enjoy your stay here."
+    m2 += "\nAll the information are in the <#453192283286667264> channel, but feel free to ask the staff about anything."
+    m2 += "\n**~~= = = = = = = = = = = = = = = = = = =~~**"
+    m2 += "\nAlso please check out our public bot <@439051827384680449>! Just use `ad!invite` in the server to get the invite link for it."
+    m2 += "\n "
+    m2 += "\nThank you for joining!"
+    e = ["<a:bobo:474228327734050826>", "<a:ThumbsUpParrot:476294787285254144>", "<a:CatDance:476294788576968705>"]
+    await client.send_message(client.get_channel("453192466716164137"), "{} {}".format(random.choice(e), m))
+    server = userName.server
     await client.send_message(client.get_channel("453192385795588096"), ":large_blue_circle: `{}` joined the server! Now we have {} members.".format(userName, len(server.members)))
     try:
         dr = discord.utils.get(server.roles, id=member_role)
-        gr = discord.utils.get(server.roles, id=announcement_role)
-        ar = discord.utils.get(server.roles, id=giveaway_role)
         member = server.get_member(userName.id)
         await client.add_roles(member, dr)
-        await client.add_roles(member, gr)
-        await client.add_roles(member, ar)
-        await client.send_message(userName, "{}".format(m2))
+        await client.send_message(userName, m2)
     except:
         print("")
 
@@ -107,26 +105,24 @@ async def on_member_remove(userName: discord.User):
 client.remove_command('help')
 @client.command(pass_context=True)
 async def help(ctx):
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
-    msg.add_field(name=":incoming_envelope: ", value="You can see all commands in the <#453857880588943374> channel!")
-    msg.set_footer(text=footer_text)
-    await client.say(embed=msg)
+    embed = discord.Embed(colour=0x210150, description= ":incoming_envelope: You can see all commands in the <#453857880588943374> channel.")
+    embed.set_footer(text=footer_text)
+    await client.say(embed=embed)
 
 # }ping <option>
 @client.command(pass_context=True)
 async def ping(ctx, option = None):
     channel = ctx.message.channel
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
+    msg = discord.Embed(colour=0x210150, title= "")
     msg.set_footer(text=footer_text)
     t1 = time.perf_counter()
     await client.send_typing(channel)
     t2 = time.perf_counter()
     if option == None:
-        msg.add_field(name=error_img, value="Please specify which bot's ping you want to check.\nOptions: `g`, `f`, `s`, `c`, `all`.")
+        msg.description = "{} Please specify which bot's ping you want to check.\nOptions: `g`, `f`, `s`, `c`, `all`.".format(error_e)
+        await client.say(embed=msg)
     elif option == "g":
-        msg.add_field(name=":satellite: ", value="My ping: `{}ms`.".format(round((t2-t1)*1000)))
+        msg.description = ":satellite: My ping: `{}ms`.".format(round((t2-t1)*1000))
         await client.say(embed=msg)
     elif option == "f":
         print("")
@@ -135,124 +131,99 @@ async def ping(ctx, option = None):
     elif option == "c":
         print("")
     elif option == "all":
-        msg.add_field(name=":satellite: ", value="My ping: `{}ms`.".format(round((t2-t1)*1000)))
+        msg.description = ":satellite: My ping: `{}ms`.".format(round((t2-t1)*1000))
         await client.say(embed=msg)
     else:
-        msg.add_field(name=error_img, value="Invalid option given!\nOptions: `g`, `f`, `s`, `c`, `all`.")
+        msg.description("{} Invalid option given!\nOptions: `g`, `f`, `s`, `c`, `all`.".format(error_e))
         await client.say(embed=msg)
 
 # }invite
 @client.command(pass_context=True)
 async def invite(ctx):
-    msg = discord.Embed(colour=0x210150, url=default_invite, description= "")
-    msg.title = ""
+    msg = discord.Embed(colour=0x210150, title="")
     msg.set_footer(text=footer_text)
-    msg.add_field(name=":link: ", value="Here is the default server invite:\n{}".format(default_invite))
+    msg.description = ":link: Here is the default server invite:\n{}".format(default_invite)
     await client.say(embed=msg)
 
 # }suggest <suggestion>
 @client.command(pass_context=True)
 async def suggest(ctx, *, args = None):
     author = ctx.message.author
-    channel = client.get_channel('453192365096697897')
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
+    msg = discord.Embed(colour=0x210150, title="")
     msg.set_footer(text=footer_text)
     if args == None:
-        msg.add_field(name=error_img, value="Please give a suggestion.\nExample: `}suggest Create a new role called 'Hella Gey'.`.")
+        msg.description = "{} Please give a suggestion.".format(error_e)
     else:
-        if len(str(args)) > 500:
-            msg.add_field(name=error_img, value="The suggestion cannot be longer than 500 characters.")
+        if len(str(args)) > 250:
+            msg.description = "{} The suggestion cannot be longer than 250 characters.".format(error_e)
         else:
-            m = discord.Embed(colour=0x04FF00, description= "")
-            m.title = ""
+            m = discord.Embed(colour=0x04FF00, title="")
             m.set_footer(text=footer_text)
-            m.add_field(name=":speech_balloon: ", value="{}".format(args))
-            m.add_field(name="===============", value="Suggested by: `{}` ### `{}`\nIf you like this suggestion, react with :white_check_mark: and if you don't like it, react with :x:.".format(author, author.id))
-            await client.send_message(channel, embed=m)
-            async for message in client.logs_from(channel):
-                if len(message.reactions) == 0:
-                    await client.add_reaction(message, '\u2705')
-                    await client.add_reaction(message, '\u274C')
-                    break
-                else:
-                    print("")
-            msg.add_field(name=":speech_balloon: ", value="Suggestion sent!\nYou can see it in <#453192365096697897>.")
+            m.description = ":speech_balloon: \n{}\n**===============**\nSuggested by: `{}` ### `{}`\nIf you like this suggestion, react with :white_check_mark: and if you don't like it, react with :x:.".format(args, author, author.id)
+            message = await client.send_message(client.get_channel('453192365096697897'), embed=m)
+            await client.add_reaction(message, '\u2705')
+            await client.add_reaction(message, '\u274C')
+            msg.description = ":speech_balloon: Suggestion sent!\nYou can see it in <#453192365096697897>."
     await client.say(embed=msg)
 
 # }userinfo <user>
 @client.command(pass_context=True)
-async def userinfo(ctx, userName: discord.Member = None):
+async def userinfo(ctx, user: discord.Member = None):
     punish = discord.utils.get(ctx.message.server.roles, id=punished_role)
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
+    msg = discord.Embed(colour=0x210150, title="")
     msg.set_footer(text=footer_text)
-    if userName == None:
-        msg.add_field(name=error_img, value="Please tag the user you want to get information on.")
+    if user == None:
+        msg.description = "{} Please tag the user you want to get information on.".format(error_e)
     else:
-        imageurl = userName.avatar_url
-        msg.title = ":page_with_curl: USER INFORMATION"
+        imageurl = user.avatar_url
         msg.set_thumbnail(url=imageurl)
-        msg.add_field(name="NAME:", value="`{}`".format(userName), inline=True)
-        msg.add_field(name="ID:", value="`{}`".format(userName.id), inline=True)
-        msg.add_field(name="CREATED AT:", value="`{}`".format(userName.created_at), inline=True)
-        msg.add_field(name="JOINED AT:", value="`{}`".format(userName.joined_at), inline=True)
-        msg.add_field(name="STATUS:", value="`{}`".format(userName.status), inline=True)
-        msg.add_field(name="IS BOT:", value="`{}`".format(userName.bot), inline=True)
-        msg.add_field(name="GAME:", value="{}".format(userName.game), inline=True)
-        msg.add_field(name="NICKNAME:", value="`{}`".format(userName.nick), inline=True)
-        msg.add_field(name="TOP ROLE:", value="`{}`".format(userName.top_role), inline=True)
-        msg.add_field(name="VOICE CHANNEL:", value="`{}`".format(userName.voice_channel), inline=True)
-        if punish in userName.roles:
-            msg.add_field(name="PUNISHED:", value="True", inline=True)
+        m = ":page_with_curl: USER INFORMATION"
+        m += "\n**NAME:** `{}`".format(user)
+        m += "\n**ID:** `{}`".format(user.id)
+        m += "\n**CREATED AT:** `{}`".format(user.created_at)
+        m += "\n**JOINED AT:** `{}`".format(user.joined_at)
+        m += "\n**STATUS:** `{}`".format(user.status)
+        m += "\n**IS BOT:** `{}`".format(user.bot)
+        m += "\n**GAME:** `{}`".format(user.game)
+        m += "\n**NICKNAME:** `{}`".format(user.nick)
+        m += "\n**TOP ROLE:** `{}`".format(user.top_role)
+        m += "\n**VOICE CHANNEL:** `{}`".format(user.voice_channel)
+        if punish in user.roles:
+            m += "\n**PUNISHED:** `True`"
         else:
-            msg.add_field(name="PUNISHED:", value="False", inline=True)
+            m += "\n**PUNISHED:** `False`"
+        msg.description = m
     await client.say(embed=msg)
 
 # }serverinfo
 @client.command(pass_context=True)
 async def serverinfo(ctx):
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ":page_with_curl: SERVER INFORMATION"
+    msg = discord.Embed(colour=0x210150, title="")
     msg.set_footer(text=footer_text)
     imageurl = ctx.message.server.icon_url
     msg.set_thumbnail(url=imageurl)
-    msg.add_field(name="MEMBERS", value="`{}`".format(len(ctx.message.server.members)), inline=True)
-    msg.add_field(name="CHANNELS", value="`{}`".format(len(ctx.message.server.channels)), inline=True)
-    msg.add_field(name="EMOJIS", value="`{}`".format(len(ctx.message.server.emojis)), inline=True)
-    msg.add_field(name="ID", value="`{}`".format(ctx.message.server.id), inline=True)
-    msg.add_field(name="REGION", value="`{}`".format(ctx.message.server.region), inline=True)
-    msg.add_field(name="ROLES", value="`{}`".format(len(ctx.message.server.roles)), inline=True)
-    msg.add_field(name="OWNER", value="`{}`".format(ctx.message.server.owner), inline=True)
-    msg.add_field(name="CREATED AT", value="`{}`".format(ctx.message.server.created_at), inline=True)
-    msg.add_field(name="RELEASE DATE:", value="`{}`".format(release_date), inline=True)
+    m = ":page_with_curl: SERVER INFORMATION"
+    m += "\n**MEMBERS:** `{}`".format(len(ctx.message.server.members))
+    m += "\n**CHANNELS:** `{}`".format(len(ctx.message.server.channels))
+    m += "\n**EMOJIS:** `{}`".format(len(ctx.message.server.emojis))
+    m += "\n**ID:** `{}`".format(ctx.message.server.id)
+    m += "\n**REGION:** `{}`".format(ctx.message.server.region)
+    m += "\n**ROLES:** `{}`".format(len(ctx.message.server.roles))
+    m += "\n**OWNER:** `{}`".format(ctx.message.server.owner)
+    m += "\n**CREATED AT:** `{}`".format(ctx.message.server.created_at)
+    m += "\n**RELEASE DATE:** `{}`".format(release_date)
+    msg.description = m
     msg.set_image(url="{}".format(banner))
-    await client.say(embed=msg)
-
-# }ad
-@client.command(pass_context=True)
-async def ad(ctx):
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
-    msg.set_footer(text=footer_text)
-    m = "So you want to advertise your server?"
-    m += "\nOne of the fastest ways to advertise your server is by partnering. But we all know that it takes time and it's very boring."
-    m += "\nThat's why we created <@439051827384680449>! This bot will advertise your server on other servers automatically!"
-    m += "\nWith this bot you can get up to 72 advertisements per day and even more security for your server. All of the bot's features are completely free!"
-    m += "\nFor more information you can use `ad!help`."
-    msg.set_image(url='https://i.imgur.com/FQwGkH3.png')
-    msg.add_field(name=":a: :regional_indicator_d: ", value=m)
     await client.say(embed=msg)
 
 # }apply <helper/mod/admin/manager/adbot>
 @client.command(pass_context=True)
 async def apply(ctx, option = None):
     author = ctx.message.author
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
+    msg = discord.Embed(colour=0x210150, title="")
     msg.set_footer(text=footer_text)
     if option == None:
-        msg.add_field(name=error_img, value="No option given.\nOptions: `helper`, `mod`, `admin`, `manager`, `adbot`.\n \nExample: `}apply helper`.")
+        msg.description = "{} No option given.\nOptions: `helper`, `adbot`.".format(error_e)
     else:
         if option == "helper":
             try:
@@ -278,100 +249,9 @@ async def apply(ctx, option = None):
                 mg += "\n`-` Do you know any of the staff members? If yes, please tag them."
                 mg += "\n`-` Have you been or are you a staff member on another server?"
                 await client.send_message(author, mg)
-                msg.add_field(name=":pencil: ", value="The `helper` template has been sent to your DMs!")
+                msg.description = ":pencil: The `helper` template has been sent to your DMs!".format(error_e)
             except:
-                msg.add_field(name=error_img, value="I was unable to DM you, please try again once you allowed DMs from me.")
-        elif option == "mod":
-            try:
-                mg = "***__MODERATOR APPLICATION TEMPLATE__***"
-                mg += "\n:exclamation: Before applying make sure you met all the requirements. They can be found in the #rules-and-info channel."
-                mg += "\n```fix"
-                mg += "\n===================================="
-                mg += "\n```"
-                mg += "\n:grey_question: How to apply:"
-                mg += "\n`-` Once you meet the requirements, copy the template below and answer all the questions."
-                mg += "\n`-` When you finish answering the questions post the application in the #applications channel."
-                mg += "\n```fix"
-                mg += "\n===================================="
-                mg += "\n```"
-                mg += "\n`-` How old are you?"
-                mg += "\n`-` For how long have you been in this server?"
-                mg += "\n`-` Why do you want to become a moderator?"
-                mg += "\n`-` Rate your knowlag of discord and the X Bots (from 1-10 for both)."
-                mg += "\n`-` How active can you be (example: 1 hour a day, 3 times a week per 2 hours, etc)?"
-                mg += "\n`-` What would you do if the server is being raided?"
-                mg += "\n`-` What would you do if a staff member is abusing their powers?"
-                mg += "\n`-` What would you do if someone is being rude towards you?"
-                mg += "\n`-` Do you know any of the staff members? If yes, please tag them."
-                mg += "\n`-` Have you been or are you a staff member on another server? If yes, what role do you have?"
-                mg += "\n`-` Do you know how partnerships work on this server?"
-                await client.send_message(author, mg)
-                msg.add_field(name=":pencil: ", value="The `moderator` template has been sent to your DMs!")
-            except:
-                msg.add_field(name=error_img, value="I was unable to DM you, please try again once you allowed DMs from me.")
-        elif option == "admin":
-            try:
-                mg = "***__ADMINISTRATOR APPLICATION TEMPLATE__***"
-                mg += "\n:exclamation: Before applying make sure you met all the requirements. They can be found in the #rules-and-info channel."
-                mg += "\n```fix"
-                mg += "\n===================================="
-                mg += "\n```"
-                mg += "\n:grey_question: How to apply:"
-                mg += "\n`-` Once you meet the requirements, copy the template below and answer all the questions."
-                mg += "\n`-` When you finish answering the questions post the application in the #applications channel."
-                mg += "\n```fix"
-                mg += "\n===================================="
-                mg += "\n```"
-                mg += "\n`-` How old are you?"
-                mg += "\n`-` For how long have you been in this server?"
-                mg += "\n`-` Why do you want to become an administrator"
-                mg += "\n`-` Rate your knowlag of discord and the X Bots (from 1-10 for both)."
-                mg += "\n`-` How active can you be (example: 1 hour a day, 3 times a week per 2 hours, etc)?"
-                mg += "\n`-` What would you do if the server is being raided?"
-                mg += "\n`-` What would you do if a staff member is abusing their powers?"
-                mg += "\n`-` What would you do if someone is being rude towards you?"
-                mg += "\n`-` Do you know any of the staff members? If yes, please tag them."
-                mg += "\n`-` Have you been or are you a staff member on another server? If yes, what role do you have?"
-                mg += "\n`-` Do you know how partnerships work on this server?"
-                mg += "\n`-` Have you ever been muted/punished, banned or kicked and why?"
-                mg += "\n`-` Rate your knowlage of administrating discord servers (from 1-10)."
-                mg += "\n`-` What do you think your job would be as an administrator?"
-                await client.send_message(author, mg)
-                msg.add_field(name=":pencil: ", value="The `administrator` template has been sent to your DMs!")
-            except:
-                msg.add_field(name=error_img, value="I was unable to DM you, please try again once you allowed DMs from me.")
-        elif option == "manager":
-            try:
-                mg = "***__MANAGER APPLICATION TEMPLATE__***"
-                mg += "\n:exclamation: Before applying make sure you met all the requirements. They can be found in the #rules-and-info channel."
-                mg += "\n```fix"
-                mg += "\n===================================="
-                mg += "\n```"
-                mg += "\n:grey_question: How to apply:"
-                mg += "\n`-` Once you meet the requirements, copy the template below and answer all the questions."
-                mg += "\n`-` When you finish answering the questions post the application in the #applications channel."
-                mg += "\n```fix"
-                mg += "\n===================================="
-                mg += "\n```"
-                mg += "\n`-` How old are you?"
-                mg += "\n`-` For how long have you been in this server?"
-                mg += "\n`-` Why do you want to become a manager?"
-                mg += "\n`-` Rate your knowlag of discord and the X Bots (from 1-10 for both)."
-                mg += "\n`-` How active can you be (example: 1 hour a day, 3 times a week per 2 hours, etc)?"
-                mg += "\n`-` What would you do if the server is being raided?"
-                mg += "\n`-` What would you do if a staff member is abusing their powers?"
-                mg += "\n`-` What would you do if someone is being rude towards you?"
-                mg += "\n`-` Do you know any of the staff members? If yes, please tag them."
-                mg += "\n`-` Have you been or are you a staff member on another server? If yes, what role do you have?"
-                mg += "\n`-` Do you know how partnerships work on this server?"
-                mg += "\n`-` Have you ever been muted/punished, banned or kicked and why?"
-                mg += "\n`-` Rate your knowlage of administrating discord servers (from 1-10)."
-                mg += "\n`-` What do you think your job would be as a manager?"
-                mg += "\n`-` Why should we accept you?"
-                await client.send_message(author, mg)
-                msg.add_field(name=":pencil: ", value="The `manager` template has been sent to your DMs!")
-            except:
-                msg.add_field(name=error_img, value="I was unable to DM you, please try again once you allowed DMs from me.")
+                msg.description = "{} I was unable to DM you, please try again once you allowed DMs from me.".format(erorr_e)
         elif option == "adbot":
             try:
                 mg = "***__ADVERTISER BOT MODERATOR TEMPLATE__***"
@@ -394,37 +274,69 @@ async def apply(ctx, option = None):
                 mg += "\n`-` Have you been or are you a staff member on another server? If yes, what role do you have?"
                 mg += "\n`-` Why do you want to become an ADbot moderator?"
                 await client.send_message(author, mg)
-                msg.add_field(name=":pencil: ", value="The `advertiser bot moderator` template has been sent to your DMs!")
+                msg.description = ":pencil: The `advertiser bot moderator` template has been sent to your DMs!".format(error_e)
             except:
-                msg.add_field(name=error_img, value="I was unable to DM you, please try again once you allowed DMs from me.")
+                msg.description = "{} I was unable to DM you, please try again once you allowed DMs from me.".format(erorr_e)
         else:
-            msg.add_field(name=error_img, value="Invalid option given.\nOptions: `helper`, `mod`, `admin`, `manager`, `adbot`.\n \nExample: `}apply helper`.")
+            msg.description = "{} Invalid option given.\nOptions: `helper`, `adbot`".format(error_e)
     await client.say(embed=msg)
-
-''' COMMANDS FOR VIPS '''
+    
+''' COMMANDS FOR LEVEL 20 '''
 # }say <text>
 @client.command(pass_context=True)
 async def say(ctx, *, args = None):
     author = ctx.message.author
     vip = discord.utils.get(ctx.message.server.roles, id=vip_role)
     legend = discord.utils.get(ctx.message.server.roles, id=legend_role)
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
+    role = discord.utils.get(ctx.message.server.roles, id=lvl20_role)
+    role2 = discord.utils.get(ctx.message.server.roles, id=lvl25_role)
+    role3 = discord.utils.get(ctx.message.server.roles, id=lvl35_role)
+    role4 = discord.utils.get(ctx.message.server.roles, id=lvl40_role)
+    role5 = discord.utils.get(ctx.message.server.roles, id=lvl50_role)
+    msg = discord.Embed(colour=0x210150, title="")
     msg.set_footer(text=footer_text)
-    if vip in author.roles or legend in author.roles:
+    if vip in author.roles or legend in author.roles or role in author.roles or role2 in author.roles or role3 in author.roles or role4 in author.roles or role5 in author.roles:
         if args == None:
-            msg.add_field(name=error_img, value="Please give a message that you want the bot to say.")
+            msg.description = "{} Please give a message that you want the bot to say.".format(error_e)
             await client.say(embed=msg)
         else:
             if len(str(args)) > 1990:
-                msg.add_field(name=error_img, value="The message cannot be longer than 1990 characters.")
+                msg.description = "{} The message cannot be longer than 1990 characters.".format(error_e)
                 await client.say(embed=msg)
             else:
                 await client.say("`{}`".format(args))
                 await client.delete_message(ctx.message)
     else:
-        msg.add_field(name=error_img, value="This command can only be used by VIPs and Legends!")
+        msg.description = "{] This command can only be used by VIPs, Legends and members with 20+ levels!".format(error_e)
         await client.say(embed=msg)
+
+''' COMMANDS FOR LEVEL 25 '''
+# }specialme [server id]
+@client.command(pass_context=True)
+async def specialme(ctx, target = None):
+    author = ctx.message.author
+    role2 = discord.utils.get(ctx.message.server.roles, id=lvl25_role)
+    role3 = discord.utils.get(ctx.message.server.roles, id=lvl35_role)
+    role4 = discord.utils.get(ctx.message.server.roles, id=lvl40_role)
+    role5 = discord.utils.get(ctx.message.server.roles, id=lvl50_role)
+    msg = discord.Embed(colour=0x210150, title="")
+    msg.set_footer(text=footer_text)
+    if role2 in author.roles or role3 in author.roles or role4 in author.roles or role5 in author.roles:
+        if target == None:
+            msg.description = "{} No server ID given.".format(error_e)
+        elif target in requested:
+            msg.description = "{} That server ID has already been requested or is already in the special list.".format(error_e)
+        else:
+            try:
+                number = int(target)
+                await client.send_message(client.get_channel('481872679498940428'), "```diff\n- SPECIAL ADS REQUEST -\n+ Author: {} ### {}\n+ Server ID: {}\n```".format(author, author.id, target))
+                requested.append(target)
+                msg.description = ":white_check_mark: Request sent!"
+            except:
+                msg.description = "{} Invalid server ID.".format(error_e)
+    else:
+        msg.description = "{} This command can only be used by members with 25+ levels!".format(error_e)
+    await client.say(embed=msg)
 
 ''' COMMANDS FOR STAFF '''
 # }p <user>
@@ -438,29 +350,36 @@ async def p(ctx, userName: discord.Member = None):
     owner = discord.utils.get(ctx.message.server.roles, id=owner_role)
     partner = discord.utils.get(ctx.message.server.roles, id=partner_role)
     pmanager = discord.utils.get(ctx.message.server.roles, id=pmanager_role)
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
+    msg = discord.Embed(colour=0x210150, title="")
     msg.set_footer(text=footer_text)
-    chnl = client.get_channel('453192314714849290')
-    l = client.get_channel(logs)
     if helper in author.roles or mod in author.roles or admin in author.roles or manager in author.roles or owner in author.roles or pmanager in author.roles:
         if userName == None:
-            msg.add_field(name=error_img, value="Please mention the person you want to give/remove the partner role to/from.")
+            msg.description = "{} Please mention the person you want to give/remove the partner role to/from.".format(error_e)
         else:
             try:
+                a = []
                 if partner in userName.roles:
                     await client.remove_roles(userName, partner)
-                    msg.add_field(name=":handshake: ", value="<@{}> removed the partner role from <@{}>.".format(author.id, userName.id))
+                    msg.description = ":handshake: <@{}> removed the partner role from <@{}>.".format(author.id, userName.id)
+                    a.append("+1")
                 else:
                     await client.add_roles(userName, partner)
-                    msg.add_field(name=":handshake: ", value="<@{}> gave the partner role to <@{}>.".format(author.id, userName.id))
+                    msg.description = ":handshake: <@{}> gave the partner role to <@{}>.".format(author.id, userName.id)
+                m = "```diff"
+                if len(a) == 0:
+                    m += "\n- PARTNER (add) -"
+                else:
+                    m += "\n- PARTNER (remove) -"
+                m += "\n+ Author: {} ### {}".format(author, author.id)
+                m += "\n```"
+                await client.send_message(client.get_channel(logs), m)
             except:
-                msg.add_field(name=error_img, value="There was an error while trying to give/take the partner role to/from that user.")
+                msg.description = "{} There was an error while trying to give/take the partner role to/from that user.".format(error_e)
     else:
-        msg.add_field(name=error_img, value="This command can only be used by the staff!")
+        msg.description = "{} This command can only be used by the staff and partner managers!".format(error_e)
     await client.say(embed=msg)
-    
-''' COMMANDS FOR ADMIN '''
+
+''' COMMANDS FOR ADMINS '''
 # }rawsay <text>
 @client.command(pass_context=True)
 async def rawsay(ctx, *, args = None):
@@ -473,17 +392,17 @@ async def rawsay(ctx, *, args = None):
     msg.set_footer(text=footer_text)
     if admin in author.roles or manager in author.roles or owner in author.roles:
         if args == None:
-            msg.add_field(name=error_img, value="No text given!")
+            msg.description = "{} No text given!".format(error_e)
             await client.say(embed=msg)
         else:
             if len(str(args)) > 1990:
-                msg.add_field(name=error_img, value="The text cannot be longer than 1990 characters.")
+                msg.description = "{} The text cannot be longer than 1990 characters.".format(error_e)
                 await client.say(embed=msg)
             else:
                 await client.say("{}".format(args))
                 await client.delete_message(ctx.message)
     else:
-        msg.add_field(name=error_img, value="This command can only be used by Administrators, Managers and Owners!")
+        msg.description = "{} This command can only be used by Administrators, Managers and Owners!".format(error_e)
         await client.say(embed=msg)
 
 #######################
