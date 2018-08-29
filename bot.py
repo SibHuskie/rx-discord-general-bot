@@ -56,7 +56,7 @@ requested = []
 # EVENT - TELLS YOU WHEN THE BOT TURNS ON
 @client.event
 async def on_ready():
-    async for i in client.logs_from(client.get_channel('481865549505232906'), limit=100000000):
+    async for i in client.logs_from(client.get_channel('484381032905310228'), limit=100000000):
         requested.append(i.content)
     t1 = time.perf_counter()
     print("[][][][][][][][][][][][][][]")
@@ -323,10 +323,11 @@ async def specialme(ctx):
     msg.set_footer(text=footer_text)
     if role2 in author.roles or role3 in author.roles or role4 in author.roles or role5 in author.roles:
         if author.id in requested:
-            msg.description = "{} You have already sent a request for special advertisements.".format(erorr_e)
+            msg.description = "{} You have already sent a request for special advertisements.".format(error_e)
         else:
-            await client.send_message(client.get_channel('481872679498940428'), "```diff\n- SPECIAL ADS REQUEST -\n+ Author: {} ### {}\n```".format(author, author.id)
+            await client.send_message(client.get_channel('481872679498940428'), "```diff\n- SPECIAL ADS REQUEST -\n+ Author: {} ### {}\n```".format(author, author.id))
             requested.append(author.id)
+            await client.send_message(client.get_channel('484381032905310228'), author.id)
             msg.description = ":white_check_mark: Request sent!"
     else:
         msg.description = "{} This command can only be used by members with 25+ levels!".format(error_e)
