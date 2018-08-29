@@ -311,9 +311,9 @@ async def say(ctx, *, args = None):
         await client.say(embed=msg)
 
 ''' COMMANDS FOR LEVEL 25 '''
-# }specialme [server id]
+# }specialme
 @client.command(pass_context=True)
-async def specialme(ctx, target = None):
+async def specialme(ctx):
     author = ctx.message.author
     role2 = discord.utils.get(ctx.message.server.roles, id=lvl25_role)
     role3 = discord.utils.get(ctx.message.server.roles, id=lvl35_role)
@@ -322,18 +322,12 @@ async def specialme(ctx, target = None):
     msg = discord.Embed(colour=0x210150, title="")
     msg.set_footer(text=footer_text)
     if role2 in author.roles or role3 in author.roles or role4 in author.roles or role5 in author.roles:
-        if target == None:
-            msg.description = "{} No server ID given.".format(error_e)
-        elif target in requested:
-            msg.description = "{} That server ID has already been requested or is already in the special list.".format(error_e)
+        if author.id in requested:
+            msg.description = "{} You have already sent a request for special advertisements.".format(erorr_e)
         else:
-            try:
-                number = int(target)
-                await client.send_message(client.get_channel('481872679498940428'), "```diff\n- SPECIAL ADS REQUEST -\n+ Author: {} ### {}\n+ Server ID: {}\n```".format(author, author.id, target))
-                requested.append(target)
-                msg.description = ":white_check_mark: Request sent!"
-            except:
-                msg.description = "{} Invalid server ID.".format(error_e)
+            await client.send_message(client.get_channel('481872679498940428'), "```diff\n- SPECIAL ADS REQUEST -\n+ Author: {} ### {}\n```".format(author, author.id)
+            requested.append(author.id)
+            msg.description = ":white_check_mark: Request sent!"
     else:
         msg.description = "{} This command can only be used by members with 25+ levels!".format(error_e)
     await client.say(embed=msg)
