@@ -399,6 +399,40 @@ async def rawsay(ctx, *, args = None):
     else:
         msg.description = "{} This command can only be used by Administrators, Managers and Owners!".format(error_e)
         await client.say(embed=msg)
+        
+# }embed <title> <description> <field name> <field value> <footer>
+@client.command(pass_context=True)
+async def embed(ctx, *, args = None):
+    author = ctx.message.author
+    owner = discord.utils.get(ctx.message.server.roles, id=owner_role)
+    admin = discord.utils.get(ctx.message.server.roles, id=admin_role)
+    manager = discord.utils.get(ctx.message.server.roles, id=manager_role)
+    msg = discord.Embed(colour=0x210150, title="")
+    msg.set_footer(text=footer_text)
+    if admin in author.roles or manager in author.roles or owner in author.roles:
+        if args == None:
+            msg.description = "{} Not all arguments were given.\nProper usage: `Embed Title | Embed Description | Embed Field Name | Embed Field Value/Text | Embed Footer`.".format(error_e)
+            await client.say(embed=msg)
+        else:
+            a = str(args)
+            if '|' in a:
+                b = a.split('|')
+                try:
+                    color = discord.Color(random.randint(0x000000, 0xFFFFFF))
+                    msg2 = discord.Embed(colour=color, description="{}".format(b[1]))
+                    msg2.title = "{}".format(b[0])
+                    msg2.set_footer(text=b[4])
+                    msg2.add_field(name="{}".format(b[2]), value="{}".format(b[3]))
+                    await client.say(embed=msg2)
+                except:
+                    msg.description = "The command was used incorrectly.\nProper usage: `Embed Title | Embed Description | Embed Field Name | Embed Field Value/Text | Embed Footer`.".format(error_e)
+                    await client.say(embed=msg)
+            else:
+                msg.description = "The command was used incorrectly.\nProper usage: `Embed Title | Embed Description | Embed Field Name | Embed Field Value/Text | Embed Footer`.".format(error_e)
+                await client.say(embed=msg)
+    else:
+        msg.description = "This command can only be used by Administrators, Managers and Owners.".format(error_e)
+        await client.say(embed=msg)
 
 #######################
 client.run(os.environ['BOT_TOKEN'])
