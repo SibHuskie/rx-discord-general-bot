@@ -14,7 +14,7 @@ from gtts import gTTS
 ''''''
 
 Client = discord.Client()
-bot_prefix= "}"
+bot_prefix= "dev}"
 client = commands.Bot(command_prefix=bot_prefix)
 server = discord.Server(id='414089074870321153')
 footer_text = "[Realm X] - [X General]"
@@ -77,8 +77,6 @@ async def on_member_join(userName: discord.User):
     m2 += "\nWelcome to **Realm ✘**, {}! We hope you enjoy your stay here."
     m2 += "\nAll the information are in the <#453192283286667264> channel, but feel free to ask the staff about anything."
     m2 += "\n**~~= = = = = = = = = = = = = = = = = = =~~**"
-    m2 += "\nAlso please check out our public bot <@439051827384680449>! Just use `ad!invite` in the server to get the invite link for it."
-    m2 += "\n "
     m2 += "\nThank you for joining!"
     e = ["<a:bobo:474228327734050826>", "<a:ThumbsUpParrot:476294787285254144>", "<a:CatDance:476294788576968705>"]
     await client.send_message(client.get_channel("453192466716164137"), "{} {}".format(random.choice(e), m))
@@ -148,19 +146,30 @@ async def suggest(ctx, *, args = None):
     author = ctx.message.author
     msg = discord.Embed(colour=0x210150, title="")
     msg.set_footer(text=footer_text)
-    if args == None:
-        msg.description = "{} Please give a suggestion.".format(error_e)
-    else:
-        if len(str(args)) > 250:
-            msg.description = "{} The suggestion cannot be longer than 250 characters.".format(error_e)
+    role = discord.utils.get(ctx.message.server.roles, id=lvl5_role)
+    role2 = discord.utils.get(ctx.message.server.roles, id=lvl10_role)
+    role3 = discord.utils.get(ctx.message.server.roles, id=lvl15_role)
+    role4 = discord.utils.get(ctx.message.server.roles, id=lvl20_role)
+    role5 = discord.utils.get(ctx.message.server.roles, id=lvl25_role)
+    role6 = discord.utils.get(ctx.message.server.roles, id=lvl35_role)
+    role7 = discord.utils.get(ctx.message.server.roles, id=lvl40_role)
+    role8 = discord.utils.get(ctx.message.server.roles, id=lvl50_role)
+    if role in author.roles or role2 in author.roles or role3 in author.roles or role4 in author.roles or role5 in author.roles or role6 in author.roles or role7 in author.roles or role8 in author.roles:
+        if args == None:
+            msg.description = "{} Please give a suggestion.".format(error_e)
         else:
-            m = discord.Embed(colour=0x04FF00, title="")
-            m.set_footer(text=footer_text)
-            m.description = ":speech_balloon: \n{}\n**===============**\nSuggested by: `{}` ### `{}`\nIf you like this suggestion, react with :white_check_mark: and if you don't like it, react with :x:.".format(args, author, author.id)
-            message = await client.send_message(client.get_channel('453192365096697897'), embed=m)
-            await client.add_reaction(message, '\u2705')
-            await client.add_reaction(message, '\u274C')
-            msg.description = ":speech_balloon: Suggestion sent!\nYou can see it in <#453192365096697897>."
+            if len(str(args)) > 250:
+                msg.description = "{} The suggestion cannot be longer than 250 characters.".format(error_e)
+            else:
+                m = discord.Embed(colour=0x04FF00, title="")
+                m.set_footer(text=footer_text)
+                m.description = ":speech_balloon: \n{}\n**===============**\nSuggested by: `{}` ### `{}`\nIf you like this suggestion, react with :white_check_mark: and if you don't like it, react with :x:.".format(args, author, author.id)
+                message = await client.send_message(client.get_channel('453192365096697897'), embed=m)
+                await client.add_reaction(message, '\u2705')
+                await client.add_reaction(message, '\u274C')
+                msg.description = ":speech_balloon: Suggestion sent!\nYou can see it in <#453192365096697897>."
+    else:
+        msg.description = "{} This command can only be used by members with 5+ levels.".format(error_e)
     await client.say(embed=msg)
 
 # }userinfo <user>
@@ -213,86 +222,60 @@ async def serverinfo(ctx):
     msg.set_image(url="{}".format(banner))
     await client.say(embed=msg)
 
-# }apply <helper/mod/admin/manager/adbot>
+# }apply
 @client.command(pass_context=True)
-async def apply(ctx, option = None):
+async def apply(ctx):
     author = ctx.message.author
     msg = discord.Embed(colour=0x210150, title="")
     msg.set_footer(text=footer_text)
-    if option == None:
-        msg.description = "{} No option given.\nOptions: `helper`, `adbot`.".format(error_e)
+    role3 = discord.utils.get(ctx.message.server.roles, id=lvl15_role)
+    role4 = discord.utils.get(ctx.message.server.roles, id=lvl20_role)
+    role5 = discord.utils.get(ctx.message.server.roles, id=lvl25_role)
+    role6 = discord.utils.get(ctx.message.server.roles, id=lvl35_role)
+    role7 = discord.utils.get(ctx.message.server.roles, id=lvl40_role)
+    role8 = discord.utils.get(ctx.message.server.roles, id=lvl50_role)
+    if role3 in author.roles or role4 in author.roles or role5 in author.roles or role6 in author.roles or role7 in author.roles or role8 in author.roles:
+        try:
+            mg = "***__STAFF APPLICATION TEMPLATE__***"
+            mg += "\n:exclamation: Before applying make sure you are at least level 15 on the Mee6 leveling system."
+            mg += "\n```md"
+            mg += "\n# =================================== #"
+            mg += "\n```"
+            mg += "\n:grey_question: How to apply:"
+            mg += "\n`-` Once you meet the requirements, copy the template below and answer all the questions."
+            mg += "\n`-` When you finish answering the questions post the application in the <#457855606670229505> channel."
+            mg += "\n```md"
+            mg += "\n# =================================== #"
+            mg += "\n```"
+            mg += "\n`-` How old are you?"
+            mg += "\n`-` For how long have you been in this server?"
+            mg += "\n`-` Why do you want to become a helper?"
+            mg += "\n`-` Rate your knowlage of discord and the X Bots (from 1-10 for both)."
+            mg += "\n`-` How active can you be (example: 1 hour a day, 3 times a week per 2 hours, etc.)?"
+            mg += "\n`-` What would you do if the server is being raided?"
+            mg += "\n`-` What would you do if a staff member is abusing their powers?"
+            mg += "\n`-` What would you do if someone is being rude towards you?"
+            mg += "\n`-` Do you know any of the staff members? If yes, please tag them."
+            mg += "\n`-` Have you been or are you a staff member on another server?"
+            mg += "\n`-` Why should we accept you?"
+            await client.send_message(author, mg)
+            msg.description = ":pencil: The `helper` template has been sent to your DMs!".format(error_e)
+        except:
+            msg.description = "{} I was unable to DM you, please try again once you allowed DMs from me.".format(erorr_e)
     else:
-        if option == "helper":
-            try:
-                mg = "***__HELPER APPLICATION TEMPLATE__***"
-                mg += "\n:exclamation: Before applying make sure you met all the requirements. They can be found in the #rules-and-info channel."
-                mg += "\n```fix"
-                mg += "\n===================================="
-                mg += "\n```"
-                mg += "\n:grey_question: How to apply:"
-                mg += "\n`-` Once you meet the requirements, copy the template below and answer all the questions."
-                mg += "\n`-` When you finish answering the questions post the application in the #applications channel."
-                mg += "\n```fix"
-                mg += "\n===================================="
-                mg += "\n```"
-                mg += "\n`-` How old are you?"
-                mg += "\n`-` For how long have you been in this server?"
-                mg += "\n`-` Why do you want to become a helper?"
-                mg += "\n`-` Rate your knowlage of discord and the X Bots (from 1-10 for both)."
-                mg += "\n`-` How active can you be (example: 1 hour a day, 3 times a week per 2 hours, etc.)?"
-                mg += "\n`-` What would you do if the server is being raided?"
-                mg += "\n`-` What would you do if a staff member is abusing their powers?"
-                mg += "\n`-` What would you do if someone is being rude towards you?"
-                mg += "\n`-` Do you know any of the staff members? If yes, please tag them."
-                mg += "\n`-` Have you been or are you a staff member on another server?"
-                await client.send_message(author, mg)
-                msg.description = ":pencil: The `helper` template has been sent to your DMs!".format(error_e)
-            except:
-                msg.description = "{} I was unable to DM you, please try again once you allowed DMs from me.".format(erorr_e)
-        elif option == "adbot":
-            try:
-                mg = "***__ADVERTISER BOT MODERATOR TEMPLATE__***"
-                mg += "\n:exclamation: Before applying make sure you met all the requirements. They can be found in the #rules-and-info channel."
-                mg += "\n```fix"
-                mg += "\n===================================="
-                mg += "\n```"
-                mg += "\n:grey_question: How to apply:"
-                mg += "\n`-` Once you meet the requirements, copy the template below and answer all the questions."
-                mg += "\n`-` When you finish answering the questions post the application in the #applications channel."
-                mg += "\n```fix"
-                mg += "\n===================================="
-                mg += "\n```"
-                mg += "\n`-` How old are you?"
-                mg += "\n`-` For how long have you been using Advertiser Bot?"
-                mg += "\n`-` Rate your knowlage of discord and the bot (from 1-10 for both)."
-                mg += "\n`-` How active can you be (example: 1 hour a day, 3 times a week per 2 hours, etc)?"
-                mg += "\n`-` What would you do if another ADbot moderator/administrator is abusing their powers?"
-                mg += "\n`-` Do you know any of the staff members? If yes, please tag them."
-                mg += "\n`-` Have you been or are you a staff member on another server? If yes, what role do you have?"
-                mg += "\n`-` Why do you want to become an ADbot moderator?"
-                await client.send_message(author, mg)
-                msg.description = ":pencil: The `advertiser bot moderator` template has been sent to your DMs!".format(error_e)
-            except:
-                msg.description = "{} I was unable to DM you, please try again once you allowed DMs from me.".format(erorr_e)
-        else:
-            msg.description = "{} Invalid option given.\nOptions: `helper`, `adbot`".format(error_e)
+        msg.description = "{} This command can only be used by members with 15+ levels.".format(error_e)
     await client.say(embed=msg)
     
-''' COMMANDS FOR LEVEL 20 '''
+''' COMMANDS FOR VIPS '''
 # }say <text>
 @client.command(pass_context=True)
 async def say(ctx, *, args = None):
     author = ctx.message.author
     vip = discord.utils.get(ctx.message.server.roles, id=vip_role)
     legend = discord.utils.get(ctx.message.server.roles, id=legend_role)
-    role = discord.utils.get(ctx.message.server.roles, id=lvl20_role)
-    role2 = discord.utils.get(ctx.message.server.roles, id=lvl25_role)
-    role3 = discord.utils.get(ctx.message.server.roles, id=lvl35_role)
-    role4 = discord.utils.get(ctx.message.server.roles, id=lvl40_role)
-    role5 = discord.utils.get(ctx.message.server.roles, id=lvl50_role)
     msg = discord.Embed(colour=0x210150, title="")
     msg.set_footer(text=footer_text)
-    if vip in author.roles or legend in author.roles or role in author.roles or role2 in author.roles or role3 in author.roles or role4 in author.roles or role5 in author.roles:
+    if vip in author.roles or legend in author.roles:
         if args == None:
             msg.description = "{} Please give a message that you want the bot to say.".format(error_e)
             await client.say(embed=msg)
@@ -304,7 +287,7 @@ async def say(ctx, *, args = None):
                 await client.say("`{}`".format(args))
                 await client.delete_message(ctx.message)
     else:
-        msg.description = "{] This command can only be used by VIPs, Legends and members with 20+ levels!".format(error_e)
+        msg.description = "{] This command can only be used by VIPs and Legends.".format(error_e)
         await client.say(embed=msg)
 
 ''' COMMANDS FOR STAFF '''
@@ -356,8 +339,7 @@ async def rawsay(ctx, *, args = None):
     admin = discord.utils.get(ctx.message.server.roles, id=admin_role)
     manager = discord.utils.get(ctx.message.server.roles, id=manager_role)
     owner = discord.utils.get(ctx.message.server.roles, id=owner_role)
-    msg = discord.Embed(colour=0x210150, description= "")
-    msg.title = ""
+    msg = discord.Embed(colour=0x210150, title= "")
     msg.set_footer(text=footer_text)
     if admin in author.roles or manager in author.roles or owner in author.roles:
         if args == None:
@@ -373,7 +355,7 @@ async def rawsay(ctx, *, args = None):
     else:
         msg.description = "{} This command can only be used by Administrators, Managers and Owners!".format(error_e)
         await client.say(embed=msg)
-        
+
 # }embed <title> <description> <field name> <field value> <footer>
 @client.command(pass_context=True)
 async def embed(ctx, *, args = None):
