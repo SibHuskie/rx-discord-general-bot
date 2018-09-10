@@ -14,7 +14,7 @@ from gtts import gTTS
 ''''''
 
 Client = discord.Client()
-bot_prefix= "dev}"
+bot_prefix= "}"
 client = commands.Bot(command_prefix=bot_prefix)
 server = discord.Server(id='414089074870321153')
 footer_text = "[Realm X] - [X General]"
