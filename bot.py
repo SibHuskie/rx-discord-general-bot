@@ -9,7 +9,7 @@ import time
 ''''''
 
 Client = discord.Client()
-bot_prefix= "dev}"
+bot_prefix= "}"
 client = commands.Bot(command_prefix=bot_prefix)
 footer_text = "[Realm X] - [X General]"
 
