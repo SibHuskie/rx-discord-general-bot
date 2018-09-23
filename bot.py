@@ -65,7 +65,7 @@ async def on_member_join(userName: discord.User):
     m2 += "\n**~~= = = = = = = = = = = = = = = = = = =~~**"
     m2 += "\nThank you for joining!"
     emojis = ["<a:bobo:474228327734050826>", "<a:ThumbsUpParrot:476294787285254144>", "<a:CatDance:476294788576968705>"]
-    #await client.send_message(client.get_channel("453192466716164137"), "{} {}".format(random.choice(emojis), m))
+    await client.send_message(client.get_channel("453192466716164137"), "{} {}".format(random.choice(emojis), m))
     server = userName.server
     user = server.get_member(userName.id)
     await client.send_message(client.get_channel("453192385795588096"), ":large_blue_circle: `{}` joined the server! Now we have {} members.\n__`Created at: {} | Joined at: {}`__".format(userName, len(server.members), userName.created_at, user.joined_at))
