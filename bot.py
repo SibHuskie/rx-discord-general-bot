@@ -67,8 +67,7 @@ async def on_member_join(userName: discord.User):
     emojis = ["<a:bobo:474228327734050826>", "<a:ThumbsUpParrot:476294787285254144>", "<a:CatDance:476294788576968705>"]
     await client.send_message(client.get_channel("453192466716164137"), "{} {}".format(random.choice(emojis), m))
     server = userName.server
-    user = server.get_member(userName.id)
-    await client.send_message(client.get_channel("453192385795588096"), ":large_blue_circle: `{}` joined the server! Now we have {} members.\n__`Created at: {} | Joined at: {}`__".format(userName, len(server.members), userName.created_at, user.joined_at))
+    await client.send_message(client.get_channel("453192385795588096"), ":large_blue_circle: `{}` joined the server! Now we have {} members.".format(userName, len(server.members)))
     try:
         await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id=member_role))
         #await client.send_message(userName, m2)
@@ -333,6 +332,7 @@ async def p(ctx, user: discord.Member = None):
             m = "```diff"
             m += "\n- REMOVE PARTNER ROLE -"
             m += "\n+ Author: {} ### {}".format(author, author.id)
+            m += "\n+ Target: {} ### {}".format(user, user.id)
             m += "\n```"
             await client.send_message(client.get_channel(logs), m)
         else:
@@ -342,6 +342,7 @@ async def p(ctx, user: discord.Member = None):
             m = "```diff"
             m += "\n- ADD PARTNER ROLE -"
             m += "\n+ Author: {} ### {}".format(author, author.id)
+            m += "\n+ Target: {} ### {}".format(user, user.id)
             m += "\n```"
             await client.send_message(client.get_channel(logs), m)
     else:
