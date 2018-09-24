@@ -96,7 +96,7 @@ async def help(ctx):
 async def ping(ctx, option = None):
     embed = discord.Embed(colour=0x2F007F)
     embed.set_footer(text=footer_text)
-    options = ["g", "m", "w", "f"]
+    options = ["g", "m", "w", "f", "all"]
     if option == None:
         embed.description = "{} Please specify which bot's ping you want to see.\nOptions: `g`, `m`, `w`, `f`, `all`.".format(error_e)
         await client.say(embed=embed)
