@@ -166,40 +166,18 @@ async def serverinfo(ctx):
     embed.set_image(url='https://i.imgur.com/rVvSG5L.png')
     await client.say(embed=embed)
 
-# }apply
+# }avatar [user]
 @client.command(pass_context=True)
-async def apply(ctx):
+async def avatar(ctx, user: discord.Member = None):
+    if user == None:
+        author = ctx.message.author
+    else:
+        author = user
     embed = discord.Embed(colour=0x2F007F)
     embed.set_footer(text=footer_text)
-    try:
-        mg = "***__STAFF APPLICATION TEMPLATE__***"
-        mg += "\n:exclamation: Before applying make sure you are at least level 15 on the Mee6 leveling system."
-        mg += "\n```md"
-        mg += "\n# =================================== #"
-        mg += "\n```"
-        mg += "\n:grey_question: How to apply:"
-        mg += "\n`-` Once you meet the requirements, copy the template below and answer all the questions."
-        mg += "\n`-` When you finish answering the questions post the application in the <#457855606670229505> channel."
-        mg += "\n```md"
-        mg += "\n# =================================== #"
-        mg += "\n```"
-        mg += "\n`-` How old are you?"
-        mg += "\n`-` For how long have you been in this server?"
-        mg += "\n`-` Why do you want to become a helper?"
-        mg += "\n`-` Rate your knowlage of discord and the X Bots (from 1-10 for both)."
-        mg += "\n`-` How active can you be (example: 1 hour a day, 3 times a week per 2 hours, etc.)?"
-        mg += "\n`-` What would you do if the server is being raided?"
-        mg += "\n`-` What would you do if a staff member is abusing their powers?"
-        mg += "\n`-` What would you do if someone is being rude towards you?"
-        mg += "\n`-` Do you know any of the staff members? If yes, please tag them."
-        mg += "\n`-` Have you been or are you a staff member on another server?"
-        mg += "\n`-` Why should we accept you?"
-        await client.send_message(ctx.message.author, mg)
-        embed.description = "The staff application information was sent to your DMS!"
-        await client.say(embed=embed)
-    except:
-        embed.description = "{} Make sure I have permission to DM you.".format(error_e)
-        await client.say(embed=embed)
+    embed.description = "Here is <@{}>'s avatar:".format(author.id)
+    embed.set_image(url=author.avatar_url)
+    await client.say(embed=embed)
 
 # }nothing
 @client.command(pass_context=True)
