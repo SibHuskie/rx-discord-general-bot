@@ -138,18 +138,18 @@ async def staff(ctx):
         ma = "<@&{}>".format(manager.id)
         o = "<@&{}>".format(owner.id)
         for i in ctx.message.server.members:
-            if pmanager in i.roles:
-                p += "\n<@{}>".format(i.id)
-            elif helper in i.roles:
-                h += "\n<@{}>".format(i.id)
-            elif mod in i.roles:
-                m += "\n<@{}>".format(i.id)
-            elif admin in i.roles:
-                a += "\n<@{}>".format(i.id)
+            if owner in i.roles:
+                o += "\n<@{}>".format(i.id)
             elif manager in i.roles:
                 ma += "\n<@{}>".format(i.id)
-            elif owner in i.roles:
-                o += "\n<@{}>".format(i.id)
+            elif admin in i.roles:
+                a += "\n<@{}>".format(i.id)
+            elif mod in i.roles:
+                m += "\n<@{}>".format(i.id)
+            elif helper in i.roles:
+                h += "\n<@{}>".format(i.id)
+            elif pmanager in i.roles:
+                p += "\n<@{}>".format(i.id)
         embed.description = "**__STAFF LIST:__**\n{}\n{}\n{}\n{}\n{}\n{}".format(p, h, m, a, ma, o)
         await client.edit_message(k, embed=embed)
     except:
