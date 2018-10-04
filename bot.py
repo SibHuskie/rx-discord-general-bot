@@ -116,6 +116,45 @@ async def invite(ctx):
     embed = discord.Embed(colour=0x2F007F, description = "Here is the default invite link for the server: https://discord.gg/UBh9FpK")
     embed.set_footer(text=footer_text)
     await client.say(embed=embed)
+    
+# }staff
+@client.command(pass_context=True)
+async def staff(ctx):
+    embed = discord.Embed(colour=0x2F007F)
+    embed.set_footer(text=footer_text)
+    helper = discord.utils.get(ctx.message.server.roles, id=helper_role)
+    mod = discord.utils.get(ctx.message.server.roles, id=mod_role)
+    admin = discord.utils.get(ctx.message.server.roles, id=admin_role)
+    manager = discord.utils.get(ctx.message.server.roles, id=manager_role)
+    owner = discord.utils.get(ctx.message.server.roles, id=owner_role)
+    pmanager = discord.utils.get(ctx.message.server.roles, id=pm_role)
+    embed.description = "Loading staff list... <a:loading:484705261609811979>"
+    k = await client.say(embed=embed)
+    try:
+        p = "<@&{}>".format(pmanager.id)
+        h = "<@&{}>".format(helper.id)
+        m = "<@&{}>".format(mod.id)
+        a = "<@&{}>".format(admin.id)
+        ma = "<@&{}>".format(manager.id)
+        o = "<@&{}>".format(owner.id)
+        for i in ctx.message.server.members:
+            if pmanager in i.roles:
+                p += "\n<@{}>".format(i.id)
+            elif helper in i.roles:
+                h += "\n<@{}>".format(i.id)
+            elif mod in i.roles:
+                m += "\n<@{}>".format(i.id)
+            elif admin in i.roles:
+                a += "\n<@{}>".format(i.id)
+            elif manager in i.roles:
+                ma += "\n<@{}>".format(i.id)
+            elif owner in i.roles:
+                o += "\n<@{}>".format(i.id)
+        embed.description = "**__STAFF LIST:__**\n{}\n{}\n{}\n{}\n{}\n{}".format(p, h, m, a, ma, o)
+        await client.edit_message(k, embed=embed)
+    except:
+        embed.description = "{} There was an error while loading the staff list. Please try again.".format(error_e)
+        await client.edit_message(k, embed=embed)
 
 # }userinfo [user]
 @client.command(pass_context=True)
