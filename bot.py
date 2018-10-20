@@ -57,20 +57,29 @@ async def on_ready():
 # EVENT - JOIN / LEAVE
 @client.async_event
 async def on_member_join(userName: discord.User):
-    m = "Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay.".format(userName.id)
-    m2 = "https://i.imgur.com/QyY8owZ.png"
-    m2 += "\n**~~= = = = = = = = = = = = = = = = = = =~~**"
-    m2 += "\nWelcome to **Realm ✘**, {}! We hope you enjoy your stay here."
-    m2 += "\nAll the information are in the <#453192283286667264> channel, but feel free to ask the staff about anything."
-    m2 += "\n**~~= = = = = = = = = = = = = = = = = = =~~**"
-    m2 += "\nThank you for joining!"
+    embed = discord.Embed(colour=0x2F007F)
+    embed.set_footer(text=footer_text)
+    embed.set_image(url='https://i.imgur.com/QyY8owZ.png')
     emojis = ["<a:bobo:474228327734050826>", "<a:ThumbsUpParrot:476294787285254144>", "<a:CatDance:476294788576968705>"]
+    m = "Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay.".format(userName.id)
+    m2 = "**~~`= = = = = = = = = ✘ = = = = = = = = =`~~**"
+    m2 += "\n{} Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay here.".format(random.choice(emojis), userName.id)
+    m2 += "\n:clipboard: All the information are in the <#453192283286667264> channel, but feel free to ask the staff about anything."
+    m2 += "\n**~~`= = = = = = = = = ✘ = = = = = = = = =`~~**"
+    m2 += "\n:handshake:  If you want to partner please DM a partner manager, helper or moderator."
+    m2 += "\n**~~`= = = = = = = = = ✘ = = = = = = = = =`~~**"
+    m2 += "\n:white_check_mark: Thank you for joining!"
+    m2 += "\n**~~`= = = = = = = = = ✘ = = = = = = = = =`~~**"
+    m2 += "\n:shield: *__Do you want more security and protection for your server?__*"
+    m2 += "\n:link: *__Invite our public bot here:__* [click here](https://discordapp.com/oauth2/authorize?client_id=499840342464397312&scope=bot&permissions=380133)"
+    m2 += "\n**~~`= = = = = = = = = ✘ = = = = = = = = =`~~**"
+    embed.description = m2
     await client.send_message(client.get_channel("453192466716164137"), "{} {}".format(random.choice(emojis), m))
     server = userName.server
     await client.send_message(client.get_channel("453192385795588096"), ":large_blue_circle: `{}` joined the server! Now we have {} members.".format(userName, len(server.members)))
     try:
         await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id=member_role))
-        #await client.send_message(userName, m2)
+        await client.send_message(userName, embed=embed)
     except:
         print("")
 
