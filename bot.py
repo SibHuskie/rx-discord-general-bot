@@ -107,13 +107,20 @@ async def ping(ctx, option = None):
     embed = discord.Embed(colour=0x2F007F)
     embed.set_footer(text=footer_text)
     options = ["g", "m", "w", "f", "all"]
-    if option == None:
-        embed.description = "{} Please specify which bot's ping you want to see.\nOptions: `g`, `m`, `w`, `f`, `all`.".format(error_e)
-        await client.say(embed=embed)
-    elif option not in options:
-        embed.description = "{} Invalid option.\nOptions: `g`, `m`, `w`, `f`, `all`.".format(error_e)
-        await client.say(embed=embed)
-    elif option == "all" or option == "g":
+    if '}' in ctx.message.content:
+        if option == None:
+            embed.description = "{} Please specify which bot's ping you want to see.\nOptions: `g`, `m`, `w`, `f`, `all`.".format(error_e)
+            await client.say(embed=embed)
+        elif option not in options:
+            embed.description = "{} Invalid option.\nOptions: `g`, `m`, `w`, `f`, `all`.".format(error_e)
+            await client.say(embed=embed)
+        elif option == "all" or option == "g":
+            t1 = time.perf_counter()
+            await client.send_typing(ctx.message.channel)
+            t2 = time.perf_counter()
+            embed.description = "My ping is `{}`ms.".format(round((t2-t1)*1000))
+            await client.say(embed=embed)
+    else:
         t1 = time.perf_counter()
         await client.send_typing(ctx.message.channel)
         t2 = time.perf_counter()
