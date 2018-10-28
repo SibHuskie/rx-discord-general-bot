@@ -260,7 +260,7 @@ async def roleme(ctx, *, args = None):
         roles = ['473173863698661386', '473173927213137921', '483650404379525130', '453653105696047105']
         a = []
         for i in ctx.message.server.roles:
-            if args in str(i.name.lower()) and i.id in roles:
+            if args.lower() in str(i.name.lower()) and i.id in roles:
                 if i in author.roles:
                     await client.remove_roles(author, i)
                     embed.description = "<:roleme:506063821543047169> Removed the `{}` role from <@{}>.".format(i.name, author.id)
