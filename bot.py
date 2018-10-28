@@ -107,6 +107,16 @@ async def ping(ctx, option = None):
     embed = discord.Embed(colour=0x2F007F)
     embed.set_footer(text=footer_text)
     options = ["g", "m", "w", "f", "all"]
+    t1 = time.perf_counter()
+    await client.send_typing(ctx.message.channel)
+    t2 = time.perf_counter()
+    ping = round((t2-t1)*1000)
+    if ping > 300:
+        m = "<:pingbad:506072949741191189> The bot is lagging."
+    elif ping > 200:
+        m = "<:pingok:506072949908832276> The bot might be lagging."
+    else:
+        m = "<:pinggood:506072966292045825> The bot isn't lagging."
     if '}' in ctx.message.content:
         if option == None:
             embed.description = "{} Please specify which bot's ping you want to see.\nOptions: `g`, `m`, `w`, `f`, `all`.".format(error_e)
@@ -115,16 +125,10 @@ async def ping(ctx, option = None):
             embed.description = "{} Invalid option.\nOptions: `g`, `m`, `w`, `f`, `all`.".format(error_e)
             await client.say(embed=embed)
         elif option == "all" or option == "g":
-            t1 = time.perf_counter()
-            await client.send_typing(ctx.message.channel)
-            t2 = time.perf_counter()
-            embed.description = "My ping is `{}`ms.".format(round((t2-t1)*1000))
+            embed.description = "My ping is `{}`ms.\n{}".format(ping, m)
             await client.say(embed=embed)
     else:
-        t1 = time.perf_counter()
-        await client.send_typing(ctx.message.channel)
-        t2 = time.perf_counter()
-        embed.description = "My ping is `{}`ms.".format(round((t2-t1)*1000))
+        embed.description = "My ping is `{}`ms.\n{}".format(ping, m)
         await client.say(embed=embed)
 
 # }invite
