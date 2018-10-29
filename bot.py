@@ -281,7 +281,7 @@ async def roleme(ctx, *, args = None):
             
 # }motd <message>
 @client.command(pass_context=True)
-async def motd(ctx, args = None):
+async def motd(ctx, *, args = None):
     embed = discord.Embed(colour=0x2F007F)
     embed.set_footer(text=footer_text)
     author = ctx.message.author
