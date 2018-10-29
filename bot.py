@@ -82,6 +82,8 @@ async def on_member_join(userName: discord.User):
     await client.send_message(client.get_channel("453192385795588096"), "<:joined:506031430212648960> `{}` joined the server! We now have **{}** members.".format(userName, len(server.members)))
     try:
         await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id=member_role))
+        await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id='473173863698661386'))
+        await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id='473173927213137921'))
         await client.send_message(userName, embed=embed)
     except:
         print("")
