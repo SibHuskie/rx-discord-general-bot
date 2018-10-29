@@ -279,36 +279,27 @@ async def roleme(ctx, *, args = None):
             embed.description = "{} Role not found in the self-roles list.\nSelf roles: `Announcement Notify`, `Giveaway Notify`, `Anti-LvLs`, `Anti-NSFW`.".format(error_e)
             await client.say(embed=embed)
             
-# }rep <number> <message>
+# }motd <message>
 @client.command(pass_context=True)
-async def rep(ctx, number = None, *, args = None):
+async def motd(ctx, args = None):
     embed = discord.Embed(colour=0x2F007F)
     embed.set_footer(text=footer_text)
     author = ctx.message.author
     if author.id in rated:
-        embed.description = "{} You already gave reputation points for this server today.".format(error_e)
+        embed.description = "{} You already sent your message of the day.".format(error_e)
         await client.say(embed=embed)
-    elif number == None or args == None:
-        embed.description = "{} Not all arguments were given.\nProper usage: `<number> <message>`.".format(error_e)
+    elif args == None:
+        embed.description = "{} No message given.".format(error_e)
         await client.say(embed=embed)
     elif len(str(args)) > 500:
         embed.description = "{} The message cannot be longer than 500 characters.".format(error_e)
         await client.say(embed=embed)
     else:
-        try:
-            k = int(number)
-            if k > 10 or k < 1:
-                embed.description = "{} You can give 1 to 10 reputation points every day.".format(error_e)
-                await client.say(embed=embed)
-            else:
-                rated.append(author.id)
-                embed.description = "<:rep:506086190450081793> **<@{}> just gave `{}` reputation point(s)!**\n`Their message of the day:`\n{}".format(author.id, number, args)
-                await client.send_message(client.get_channel('506075676101836814'), embed=embed)
-                embed.description = "<:rep:506086190450081793> Reputation point(s) sent!\nYou can see your message of the day in <#506075676101836814>."
-                await client.say(embed=embed)
-        except:
-            embed.description = "{} Do you even know what a number is?".format(error_e)
-            await client.say(embed=embed)
+        rated.append(author.id)
+        embed.description = "<:rep:506086190450081793> **<@{}> sent their message of the day!**\n{}".format(author.id, args)
+        await client.send_message(client.get_channel('506075676101836814'), embed=embed)
+        embed.description = "<:rep:506086190450081793> You can see your message of the day in <#506075676101836814>."
+        await client.say(embed=embed)
                 
 
 ''' COMMANDS FOR LEVEL 5+ '''
