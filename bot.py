@@ -330,8 +330,8 @@ async def suggest(ctx, *, args = None):
             msg.set_footer(text=footer_text)
             msg.description = "<:suggestion:506046874466385930> {}\n**~~= = = = = = = = = = = = = = = = = = = =~~**\nSuggested by: `{} ### {}`\nIf you like this suggestion react with <:upvote:506048524849512458> and if you don't like it react with <:downvote:506048524543328257>.".format(args, ctx.message.author, ctx.message.author.id)
             message = await client.send_message(client.get_channel('453192365096697897'), embed=msg)
-            await client.add_reaction(message, ':upvote:506048524849512458')
             await client.add_reaction(message, ':downvote:506048524543328257')
+            await client.add_reaction(message, ':upvote:506048524849512458')
             embed.description = "<:suggestion:506046874466385930> Suggestion sent! You can see it in the <#453192365096697897> channel."
             await client.say(embed=embed)
     else:
