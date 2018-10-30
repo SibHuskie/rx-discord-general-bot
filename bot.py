@@ -96,7 +96,7 @@ async def on_member_join(userName: discord.User):
     embed.description = m2
     await client.send_message(client.get_channel("453192466716164137"), "{} {}".format(random.choice(emojis), m))
     server = userName.server
-    await client.send_message(client.get_channel("453192385795588096"), "<:joined:506031430212648960> `{}` joined the server! We now have **{}** members.".format(userName, len(server.members)))
+    await client.send_message(client.get_channel("453192385795588096"), "{} `{}` joined the server! We now have **{}** members.".format(joined_e, userName, len(server.members)))
     try:
         await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id=member_role))
         await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id='473173863698661386'))
@@ -108,7 +108,7 @@ async def on_member_join(userName: discord.User):
 @client.async_event
 async def on_member_remove(userName: discord.User):
     server = client.get_server('452865346081128448')
-    await client.send_message(client.get_channel("453192385795588096"), "<:left:506031430074368012> `{}` left the server! We now have **{}** members.".format(userName, len(server.members)))
+    await client.send_message(client.get_channel("453192385795588096"), "{} `{}` left the server! We now have **{}** members.".format(left_e, userName, len(server.members)))
 
 
 
