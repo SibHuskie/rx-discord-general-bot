@@ -13,7 +13,7 @@ bot_prefix= ["xg!", "}"]
 client = commands.Bot(command_prefix=bot_prefix)
 footer_text = "[Realm X] - [X General]"
 
-rated = []
+motded = []
 
 pm_role = '473812644021927946'
 helper_role = '453195469309476877'
@@ -36,9 +36,26 @@ legend_role = '453195358575656986'
 partner_role = '453194705732239360'
 muted_role = '453195421611982848'
 x_role = '453196094332076045'
-error_e = "<:error:506033486302281750>"
 logs = '490437065930965003'
 splitter = "**`====================`**"
+
+error_e = "<:error:506846074917486592>"
+joined_e = "<:joined:506846074657439776>"
+left_e = "<:left:506846074712096828>"
+serverinfo_e = "<:serverinfo:506846075102035968>"
+userinfo_e = "<:userinfo:506846074992984075>"
+avatar_e = "<:avatar:506846074464501771>"
+suggestion_e = "<:suggestion:506846075504689152>"
+upvote_e = "<:upvote:506846074699513885>"
+downvote_e = "<:downvote:506846074867286019>"
+lookup_e = "<:lookup:506846075177533450>"
+partner_e = "<:partner:506846074829537301>"
+log_e = "<:log:506846075148304399>"
+roleme_e = "<:roleme:506846075886370826>"
+pinggood_e = "<:pinggood:506846075219476481>"
+pingok_e = "<:pingok:506846075227996160>"
+pingbad_e = "<:pingbad:506846075076739072>"
+motd_e = "<:motd:506846075211087872>"
 
 ''''''
 
@@ -116,11 +133,11 @@ async def ping(ctx, option = None):
     t2 = time.perf_counter()
     ping = round((t2-t1)*1000)
     if ping > 300:
-        m = "<:pingbad:506072949741191189> The bot is lagging."
+        m = "{} The bot is lagging.".format(pingbad_e)
     elif ping > 200:
-        m = "<:pingok:506072949908832276> The bot might be lagging."
+        m = "{} The bot might be lagging.".format(pingok_e)
     else:
-        m = "<:pinggood:506072966292045825> The bot isn't lagging."
+        m = "{} The bot isn't lagging.".format(pinggood_e)
     if '}' in ctx.message.content:
         if option == None:
             embed.description = "{} Please specify which bot's ping you want to see.\nOptions: `g`, `m`, `w`, `f`, `all`.".format(error_e)
@@ -192,7 +209,7 @@ async def userinfo(ctx, user: discord.User = None):
     else:
         author = user
     embed.set_thumbnail(url=author.avatar_url)
-    m = "<:userinfo:506044904808382465> USER INFORMATION"
+    m = "{} USER INFORMATION".format(userinfo_e)
     m += "\n**NAME:** `{}`".format(author)
     m += "\n**ID:** `{}`".format(author.id)
     m += "\n**CREATED AT:** `{}`".format(author.created_at)
@@ -216,7 +233,7 @@ async def serverinfo(ctx):
     embed = discord.Embed(colour=0x2F007F)
     embed.set_footer(text=footer_text)
     embed.set_thumbnail(url=ctx.message.server.icon_url)
-    m = "<:serverinfo:506044905102245898> SERVER INFORMATION"
+    m = "{} SERVER INFORMATION".format(serverinfo_e)
     m += "\n**MEMBERS:** `{}`".format(len(ctx.message.server.members))
     m += "\n**CHANNELS:** `{}`".format(len(ctx.message.server.channels))
     m += "\n**EMOJIS:** `{}`".format(len(ctx.message.server.emojis))
@@ -239,7 +256,7 @@ async def avatar(ctx, user: discord.Member = None):
         author = user
     embed = discord.Embed(colour=0x2F007F)
     embed.set_footer(text=footer_text)
-    embed.description = "<:avatar:506044904716107787> Here is <@{}>'s avatar:".format(author.id)
+    embed.description = "{} Here is <@{}>'s avatar:".format(avatar_e, author.id)
     embed.set_image(url=author.avatar_url)
     await client.say(embed=embed)
 
@@ -265,27 +282,27 @@ async def roleme(ctx, *, args = None):
             if args.lower() in str(i.name.lower()) and i.id in roles:
                 if i in author.roles:
                     await client.remove_roles(author, i)
-                    embed.description = "<:roleme:506063821543047169> Removed the `{}` role from <@{}>.".format(i.name, author.id)
+                    embed.description = "{} Removed the `{}` role from <@{}>.".format(roleme_e, i.name, author.id)
                     await client.say(embed=embed)
                     a.append("+1")
                     break
                 else:
                     await client.add_roles(author, i)
-                    embed.description = "<:roleme:506063821543047169> Given the `{}` role to <@{}>.".format(i.name, author.id)
+                    embed.description = "{} Given the `{}` role to <@{}>.".format(roleme_e, i.name, author.id)
                     await client.say(embed=embed)
                     a.append("+1")
                     break
         if len(a) == 0:
             embed.description = "{} Role not found in the self-roles list.\nSelf roles: `Announcement Notify`, `Giveaway Notify`, `Anti-LvLs`, `Anti-NSFW`.".format(error_e)
             await client.say(embed=embed)
-            
+
 # }motd <message>
 @client.command(pass_context=True)
 async def motd(ctx, *, args = None):
     embed = discord.Embed(colour=0x2F007F)
     embed.set_footer(text=footer_text)
     author = ctx.message.author
-    if author.id in rated:
+    if author.id in motded:
         embed.description = "{} You already sent your message of the day.".format(error_e)
         await client.say(embed=embed)
     elif args == None:
@@ -295,10 +312,10 @@ async def motd(ctx, *, args = None):
         embed.description = "{} The message cannot be longer than 500 characters.".format(error_e)
         await client.say(embed=embed)
     else:
-        rated.append(author.id)
-        embed.description = "<:rep:506086190450081793> **<@{}> sent their message of the day!**\n{}".format(author.id, args)
+        motded.append(author.id)
+        embed.description = "{} <@{}>: {}".format(motd_e, author.id, args)
         await client.send_message(client.get_channel('506075676101836814'), embed=embed)
-        embed.description = "<:rep:506086190450081793> You can see your message of the day in <#506075676101836814>."
+        embed.description = "{} Message of the day sent! You can see it in the <#506075676101836814> channel.".format(motd_e)
         await client.say(embed=embed)
                 
 
@@ -328,11 +345,11 @@ async def suggest(ctx, *, args = None):
         else:
             msg = discord.Embed(colour=0x2F007F)
             msg.set_footer(text=footer_text)
-            msg.description = "<:suggestion:506046874466385930> {}\n**~~= = = = = = = = = = = = = = = = = = = =~~**\nSuggested by: `{} ### {}`\nIf you like this suggestion react with <:upvote:506048524849512458> and if you don't like it react with <:downvote:506048524543328257>.".format(args, ctx.message.author, ctx.message.author.id)
+            msg.description = "{} {}\n**~~= = = = = = = = = = = = = = = = = = = =~~**\nSuggested by: `{} ### {}`\nIf you like this suggestion react with <:upvote:506048524849512458> and if you don't like it react with <:downvote:506048524543328257>.".format(suggestion_e, args, ctx.message.author, ctx.message.author.id)
             message = await client.send_message(client.get_channel('453192365096697897'), embed=msg)
             await client.add_reaction(message, ':downvote:506048524543328257')
             await client.add_reaction(message, ':upvote:506048524849512458')
-            embed.description = "<:suggestion:506046874466385930> Suggestion sent! You can see it in the <#453192365096697897> channel."
+            embed.description = "{} Suggestion sent! You can see it in the <#453192365096697897> channel.".format(suggestion_e)
             await client.say(embed=embed)
     else:
         embed.description = "{} This command can only be used by members with 5+ levels.".format(error_e)
@@ -360,7 +377,7 @@ async def lookup(ctx, ID = None):
             try:
                 user = await client.get_user_info(ID)
                 embed.set_thumbnail(url=user.avatar_url)
-                m = "<:lookup:506054844293840908> USER INFORMATION"
+                m = "{} USER INFORMATION".format(lookup_e)
                 m += "\n**NAME:** `{}`".format(user)
                 m += "\n**ID:** `{}`".format(user.id)
                 m += "\n**CREATED AT:** `{}`".format(user.created_at)
@@ -425,7 +442,7 @@ async def p(ctx, user: discord.Member = None):
             embed.description = "<:partner:506060818748669952> <@{}> removed the partner role from <@{}>.".format(author.id, user.id)
             await client.say(embed=embed)
             m = "{}".format(splitter)
-            m += "\n<:log:506061860068524035> **__Removed Partner Role__** <:partner:506060818748669952>"
+            m += "\n{} **__Removed Partner Role__** {}".format(log_e, partner_e)
             m += "\n`Author:` {} ### {}".format(author, author.id)
             m += "\n`Target:` {} ### {}".format(user, user.id)
             await client.send_message(client.get_channel(logs), m)
@@ -434,7 +451,7 @@ async def p(ctx, user: discord.Member = None):
             embed.description = "<:partner:506060818748669952> <@{}> gave the partner role to <@{}>.".format(author.id, user.id)
             await client.say(embed=embed)
             m = "{}".format(splitter)
-            m += "\n<:log:506061860068524035> **__Added Partner Role__** <:partner:506060818748669952>"
+            m += "\n{} **__Added Partner Role__** {}".format(log_e, partner_e)
             m += "\n`Author:` {} ### {}".format(author, author.id)
             m += "\n`Target:` {} ### {}".format(user, user.id)
             await client.send_message(client.get_channel(logs), m)
