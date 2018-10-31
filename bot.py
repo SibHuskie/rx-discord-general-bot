@@ -99,7 +99,9 @@ async def on_member_join(userName: discord.User):
     await client.send_message(client.get_channel("453192385795588096"), "{} `{}` joined the server! We now have **{}** members.".format(joined_e, userName, len(server.members)))
     try:
         await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id=member_role))
+        await asyncio.sleep(1.25)
         await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id='473173863698661386'))
+        await asyncio.sleep(1.25)
         await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id='473173927213137921'))
         await client.send_message(userName, embed=embed)
     except:
@@ -347,8 +349,8 @@ async def suggest(ctx, *, args = None):
             msg.set_footer(text=footer_text)
             msg.description = "{} {}\n**~~= = = = = = = = = = = = = = = = = = = =~~**\nSuggested by: `{} ### {}`\nIf you like this suggestion react with <:upvote:506048524849512458> and if you don't like it react with <:downvote:506048524543328257>.".format(suggestion_e, args, ctx.message.author, ctx.message.author.id)
             message = await client.send_message(client.get_channel('453192365096697897'), embed=msg)
-            await client.add_reaction(message, ':downvote:506048524543328257')
-            await client.add_reaction(message, ':upvote:506048524849512458')
+            await client.add_reaction(message, ':downvote:506846074867286019')
+            await client.add_reaction(message, ':upvote:506846074699513885')
             embed.description = "{} Suggestion sent! You can see it in the <#453192365096697897> channel.".format(suggestion_e)
             await client.say(embed=embed)
     else:
