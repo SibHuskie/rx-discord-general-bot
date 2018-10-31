@@ -347,7 +347,7 @@ async def suggest(ctx, *, args = None):
         else:
             msg = discord.Embed(colour=0x2F007F)
             msg.set_footer(text=footer_text)
-            msg.description = "{} {}\n**~~= = = = = = = = = = = = = = = = = = = =~~**\nSuggested by: `{} ### {}`\nIf you like this suggestion react with <:upvote:506048524849512458> and if you don't like it react with <:downvote:506048524543328257>.".format(suggestion_e, args, ctx.message.author, ctx.message.author.id)
+            msg.description = "{} {}\n**~~= = = = = = = = = = = = = = = = = = = =~~**\nSuggested by: `{} ### {}`\nIf you like this suggestion react with <:upvote:506846074699513885> and if you don't like it react with <:downvote:506846074867286019>.".format(suggestion_e, args, ctx.message.author, ctx.message.author.id)
             message = await client.send_message(client.get_channel('453192365096697897'), embed=msg)
             await client.add_reaction(message, ':downvote:506846074867286019')
             await client.add_reaction(message, ':upvote:506846074699513885')
