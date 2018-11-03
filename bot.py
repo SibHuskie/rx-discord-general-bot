@@ -129,7 +129,7 @@ async def help(ctx):
 async def ping(ctx, option = None):
     embed = discord.Embed(colour=0x2F007F)
     embed.set_footer(text=footer_text)
-    options = ["g", "m", "w", "f", "all"]
+    options = ["g", "m", "w", "f", "p", "all"]
     t1 = time.perf_counter()
     await client.send_typing(ctx.message.channel)
     t2 = time.perf_counter()
@@ -142,10 +142,10 @@ async def ping(ctx, option = None):
         m = "{} The bot isn't lagging.".format(pinggood_e)
     if '}' in ctx.message.content:
         if option == None:
-            embed.description = "{} Please specify which bot's ping you want to see.\nOptions: `g`, `m`, `w`, `f`, `all`.".format(error_e)
+            embed.description = "{} Please specify which bot's ping you want to see.\nOptions: `g`, `m`, `w`, `f`, `p`, `all`.".format(error_e)
             await client.say(embed=embed)
         elif option not in options:
-            embed.description = "{} Invalid option.\nOptions: `g`, `m`, `w`, `f`, `all`.".format(error_e)
+            embed.description = "{} Invalid option.\nOptions: `g`, `m`, `w`, `f`, `p`, `all`.".format(error_e)
             await client.say(embed=embed)
         elif option == "all" or option == "g":
             embed.description = "My ping is `{}`ms.\n{}".format(ping, m)
