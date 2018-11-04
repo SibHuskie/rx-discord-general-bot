@@ -246,7 +246,7 @@ async def serverinfo(ctx):
     m += "\n**CREATED AT:** `{}`".format(ctx.message.server.created_at)
     m += "\n**RELEASE DATE:** `25th of June, 2018`"
     embed.description = m
-    embed.set_image(url='https://i.imgur.com/rVvSG5L.png')
+    embed.set_image(url='https://image.ibb.co/hzfvqq/banner.png')
     await client.say(embed=embed)
 
 # }avatar [user]
