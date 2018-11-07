@@ -460,6 +460,53 @@ async def p(ctx, user: discord.Member = None):
     else:
         msg.description = "{} This command can only be used by Partner Managers and staff.".format(error_e)
         await client.say(embed=embed)
+        
+''' COMMANDS FOR ADMINS '''
+# }announce
+@client.command(pass_context=True)
+async def announce(ctx):
+    embed = discord.Embed(colour=0x2F007F)
+    embed.set_footer(text=footer_text)
+    author = ctx.message.author
+    admin = discord.utils.get(ctx.message.server.roles, id=admin_role)
+    manager = discord.utils.get(ctx.message.server.roles, id=manager_role)
+    owner = discord.utils.get(ctx.message.server.roles, id=owner_role)
+    role = discord.utils.get(ctx.message.server.roles, id='473173927213137921')
+    if owner in author.roles or manager in author.roles or admin in author.roles:
+        if role.mentionable == True:
+            await client.edit_role(ctx.message.server, role, mentionable=False)
+            embed.description = "<:announce:509709121071874058> <@{}> turned **off** announcement notifications.".format(author.id)
+            await client.say(embed=embed)
+        else:
+            await client.edit_role(ctx.message.server, role, mentionable=True)
+            embed.description = "<:announce:509709121071874058> <@{}> turned **on** announcement notifications.".format(author.id)
+            await client.say(embed=embed)
+    else:
+        embed.description = "{} This command can only be used by Administrators, Managers and Owners.".format(error_e)
+        await client.say(embed=embed)
+
+# }giveaway
+@client.command(pass_context=True)
+async def giveaway(ctx):
+    embed = discord.Embed(colour=0x2F007F)
+    embed.set_footer(text=footer_text)
+    author = ctx.message.author
+    admin = discord.utils.get(ctx.message.server.roles, id=admin_role)
+    manager = discord.utils.get(ctx.message.server.roles, id=manager_role)
+    owner = discord.utils.get(ctx.message.server.roles, id=owner_role)
+    role = discord.utils.get(ctx.message.server.roles, id='473173863698661386')
+    if owner in author.roles or manager in author.roles or admin in author.roles:
+        if role.mentionable == True:
+            await client.edit_role(ctx.message.server, role, mentionable=False)
+            embed.description = "<:giveaway:509709121059160084> <@{}> turned **off** giveaway notifications.".format(author.id)
+            await client.say(embed=embed)
+        else:
+            await client.edit_role(ctx.message.server, role, mentionable=True)
+            embed.description = "<:giveaway:509709121059160084> <@{}> turned **on** giveaway notifications.".format(author.id)
+            await client.say(embed=embed)
+    else:
+        embed.description = "{} This command can only be used by Administrators, Managers and Owners.".format(error_e)
+        await client.say(embed=embed)
 
 ''' COMMANDS FOR MANAGERS '''
 
