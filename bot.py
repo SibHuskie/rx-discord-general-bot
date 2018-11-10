@@ -117,12 +117,13 @@ client.remove_command('help')
 # }help
 @client.command(pass_context=True)
 async def help(ctx):
+    embed = discord.Embed(colour=0x2F007F)
+    embed.set_footer(text=footer_text)
     if len(started) == 0:
         embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
         await client.say(embed=embed)
     else:
-        embed = discord.Embed(colour=0x2F007F, description = "Use `xg!help` to see a list of general/utility commands.\nUse `xm!help` to see a list of moderation commands.\nUse `xf!help` to see a list of fun commands.\nUse `xp!help` to see a list of protection commands.\nUse `xw!help` to see a list of wars commands.")
-        embed.set_footer(text=footer_text)
+        embed.description = "Use `xg!help` to see a list of general/utility commands.\nUse `xm!help` to see a list of moderation commands.\nUse `xf!help` to see a list of fun commands.\nUse `xp!help` to see a list of protection commands.\nUse `xw!help` to see a list of wars commands.")
         await client.say(embed=embed)
 
 # }ping <option>
