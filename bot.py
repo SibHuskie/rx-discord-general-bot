@@ -340,7 +340,7 @@ async def rep(ctx, user: discord.Member = None):
             embed.description = "{} You cannot give reputation points to yourself.".format(error_e)
             await client.say(embed=embed)
         else:
-            embed.description = "{} **{}** has given a reputation point to **{}**.".format(rep_e, ctx.message.author.nick, user.name)
+            embed.description = "{} **{}** has given a reputation point to **{}**.".format(rep_e, ctx.message.author.name, user.name)
             await client.say(embed=embed)
             reped.append(ctx.message.author.id)
             reputations.append(user.id)
