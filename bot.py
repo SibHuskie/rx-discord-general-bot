@@ -123,7 +123,7 @@ async def help(ctx):
         embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
         await client.say(embed=embed)
     else:
-        embed.description = "Use `xg!help` to see a list of general/utility commands.\nUse `xm!help` to see a list of moderation commands.\nUse `xf!help` to see a list of fun commands.\nUse `xp!help` to see a list of protection commands.\nUse `xw!help` to see a list of wars commands.")
+        embed.description = "Use `xg!help` to see a list of general/utility commands.\nUse `xm!help` to see a list of moderation commands.\nUse `xf!help` to see a list of fun commands.\nUse `xp!help` to see a list of protection commands.\nUse `xw!help` to see a list of wars commands."
         await client.say(embed=embed)
 
 # }ping <option>
