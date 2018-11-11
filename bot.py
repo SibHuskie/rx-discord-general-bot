@@ -46,6 +46,52 @@ pingbad_e = "<:pingbad:506846075076739072>"
 rep_e = "<:rep:510795018785783819>"
 reload_e = "<:reload:510803370001432578>"
 apply_e = "<:apply:510813958756892682>"
+worked_e = "<:worked:511103291690713088>"
+
+help1 = "```diff"
+help1 += "\n--- COMMANDS FOR EVERYONE ---"
+help1 += "\nxg!help"
+help1 += "\n-    Gives information about command lists."
+help1 += "\nxg!ping"
+help1 += "\n-    Pings the bot. Used to check if the bot is lagging."
+help1 += "\nxg!invite"
+help1 += "\n-    Gives invite links for the X bots and the official invite link for the server."
+help1 += "\nxg!staff"
+help1 += "\n-    Gives a list of staff."
+help1 += "\nxg!userinfo [user]"
+help1 += "\n-    Gives information about you or the mentioned user."
+help1 += "\nxg!serverinfo"
+help1 += "\n-    Gives information about the server."
+help1 += "\nxg!avatar [user]"
+help1 += "\n-    Shows a bigger version of your or the mentioned user's avatar."
+help1 += "\nxg!nothing"
+help1 += "\n-    Does nothing. Very essential for discord bots."
+help1 += "\nxg!roleme <role name>"
+help1 += "\n-    Used to self assign roles."
+help1 += "\nxg!rep <user>"
+help1 += "\n-    Gives a reputation point to the mentioned user. These are used to apply for staff."
+help1 += "\nxg!reps [user]"
+help1 += "\n-    Shows your or the mentioned user's number of reputation points."
+help1 += "\nxg!apply <support/staff/bot>"
+help1 += "\n-    Used to apply for support team member, server staff member or bot staff member."
+help1 += "\nxg!suggest <text>"
+help1 += "\n-    Sends a suggestion."
+help1 += "\nxg!lookup <user ID>"
+help1 += "\n-    Gives information for any discord user, even if they aren't in the server."
+help1 += "\nxg!say <text>"
+help1 += "\n-    Forces the bot to say something. Does not support formatting."
+help1 += "\n```"
+
+help2 = "```diff"
+help2 += "\n--- COMMANDS FOR SERVER STAFF ---"
+help2 += "\nxg!p <user>"
+help2 += "\n-    Gives or removes the partner role for the mentioned user."
+help2 += "\n--- COMMANDS FOR OWNERS ---"
+help2 += "\nxg!rawsay <text>"
+help2 += "\n-    Forces the bot to say something. Supports formatting."
+help2 += "\nxg!embed <title> | <description> | <field name> | <field value> | <footer>"
+help2 += "\n-    Creates embeds."
+help2 += "\n```"
 
 reps_chnl = "510801918449287178"
 log_chnl = "510765922152218637"
@@ -123,8 +169,18 @@ async def help(ctx):
         embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
         await client.say(embed=embed)
     else:
-        embed.description = "Use `xg!help` to see a list of general/utility commands.\nUse `xm!help` to see a list of moderation commands.\nUse `xf!help` to see a list of fun commands.\nUse `xp!help` to see a list of protection commands.\nUse `xw!help` to see a list of wars commands."
-        await client.say(embed=embed)
+        if 'xg!' not in str(ctx.message.content):
+            embed.description = "Use `xg!help` to see a list of general/utility commands.\nUse `xm!help` to see a list of moderation commands.\nUse `xf!help` to see a list of fun commands.\nUse `xp!help` to see a list of protection commands.\nUse `xw!help` to see a list of wars commands."
+            await client.say(embed=embed)
+        else:
+            try:
+                await client.send_message(ctx.message.author, help1)
+                await client.send_message(ctx.message.author, help2)
+                embed.description = "{} A list of commands has been sent to your DMs.".format(worked_e)
+                await client.say(embed=embed)
+            except:
+                embed.description = "{} I was unable to DM you my list of commands.".format(error_e)
+                await client.say(embed=embed)
 
 # }ping <option>
 @client.command(pass_context=True)
