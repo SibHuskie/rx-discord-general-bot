@@ -80,6 +80,8 @@ help1 += "\nxg!lookup <user ID>"
 help1 += "\n-    Gives information for any discord user, even if they aren't in the server."
 help1 += "\nxg!say <text>"
 help1 += "\n-    Forces the bot to say something. Does not support formatting."
+help1 += "\nxg!tos"
+help1 += "\n-    Gives you information about rules and TOS."
 help1 += "\n```"
 
 help2 = "```diff"
@@ -526,6 +528,18 @@ async def say(ctx, *, args = None):
         else:
             await client.say("`{}`".format(args))
             await client.delete_message(ctx.message)
+            
+# }tos
+@client.command(pass_context=True)
+async def tos(ctx):
+    embed = discord.Embed(colour=0x2F007F)
+    embed.set_footer(text=footer_text)
+    if len(started) == 0:
+        embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
+        await client.say(embed=embed)
+    else:
+        embed.description = "Use `xp!tos` to see X protect's rules and TOS.\nUse `xf!tos` to see X fun's rules and TOS.\n\nThe other X bots don't have rules and TOS because they are not public yet."
+        await client.say(embed=embed)
 
 ''' COMMANDS FOR STAFF '''
 
