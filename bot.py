@@ -491,7 +491,7 @@ async def p(ctx, user: discord.Member = None):
                 m += "\n`Target:` {} ### {}".format(user, user.id)
                 await client.send_message(client.get_channel(log_chnl), m)
         else:
-            embed.description = "{} This command can only be used by the server staff.".format(error_e)
+            embed.description = "{} This command can only be used by partner managers and owners.".format(error_e)
             await client.say(embed=embed)
 
 ''' COMMANDS FOR OWNERS '''
