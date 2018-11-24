@@ -14,7 +14,7 @@ bot_prefix = ["xg!", "}"]
 client = commands.Bot(command_prefix=bot_prefix)
 footer_text = "[Realm X] - [X General]"
 limit = 100000000000000000
-version = "2.0"
+version = "2.1"
 
 owners_role = "510748756858109953"
 xbots_role = "510749122257485835"
@@ -23,6 +23,7 @@ support_role = "510749024114966528"
 members_role = "510749251777855488"
 announcement_role = "510752070522109952"
 partners_role = "510787027051085834"
+pm_role = "515796622983036938"
 muted_role = "510753281945894923"
 splitter = "**~~`====================`~~**"
 
@@ -68,12 +69,6 @@ help1 += "\nxg!nothing"
 help1 += "\n-    Does nothing. Very essential for discord bots."
 help1 += "\nxg!roleme <role name>"
 help1 += "\n-    Used to self assign roles."
-help1 += "\nxg!rep <user>"
-help1 += "\n-    Gives a reputation point to the mentioned user. These are used to apply for staff."
-help1 += "\nxg!reps [user]"
-help1 += "\n-    Shows your or the mentioned user's number of reputation points."
-help1 += "\nxg!apply <support/staff/bot>"
-help1 += "\n-    Used to apply for support team member, server staff member or bot staff member."
 help1 += "\nxg!suggest <text>"
 help1 += "\n-    Sends a suggestion."
 help1 += "\nxg!lookup <user ID>"
@@ -85,7 +80,7 @@ help1 += "\n-    Gives you information about rules and TOS."
 help1 += "\n```"
 
 help2 = "```diff"
-help2 += "\n--- COMMANDS FOR SERVER STAFF ---"
+help2 += "\n--- COMMANDS FOR PARTNER MANAGERS ---"
 help2 += "\nxg!p <user>"
 help2 += "\n-    Gives or removes the partner role for the mentioned user."
 help2 += "\n"
@@ -96,10 +91,7 @@ help2 += "\nxg!embed <title> | <description> | <field name> | <field value> | <f
 help2 += "\n-    Creates embeds."
 help2 += "\n```"
 
-reps_chnl = "510801918449287178"
 log_chnl = "510765922152218637"
-reputations = []
-reped = []
 
 ''''''
 
@@ -107,9 +99,6 @@ reped = []
 started = []
 @client.event
 async def on_ready():
-    async for i in client.logs_from(client.get_channel(reps_chnl), limit=limit):
-        reputations.append(i.content)
-    print("[START UP] Loaded reputations.")
     started.append("+1")
     print("[START UP] Finished.")
     await client.change_presence(game=discord.Game(name="}help | }invite"))
@@ -119,7 +108,6 @@ async def on_ready():
     await client.send_typing(client.get_channel('510765922152218637'))
     t2 = time.perf_counter()
     m += "\n{} Ping: `{}ms`".format(pingok_e, round((t2-t1)*1000))
-    m += "\n{} Reputations: `{}`".format(rep_e, len(reputations))
     await client.send_message(client.get_channel(log_chnl), m)
 
 # EVENT - JOIN / LEAVE
@@ -246,11 +234,11 @@ async def staff(ctx):
         embed.description = "Loading staff list... {}".format(loading_e)
         k = await client.say(embed=embed)
         try:
-            o = "<@&{}> (? Reps)".format(owner.id)
-            s = "<@&{}> (30 Reps)".format(staff.id)
-            xp = "<@&510752051400278028> (50 Reps)"
-            xf = "<@&510752018982371338> (50 Reps)"
-            su = "<@&{}> (15 Reps)".format(support.id)
+            o = "<@&{}>".format(owner.id)
+            s = "<@&{}>)".format(staff.id)
+            xp = "<@&510752051400278028>"
+            xf = "<@&510752018982371338>"
+            su = "<@&{}>".format(support.id)
             for i in ctx.message.server.members:
                 if owner in i.roles:
                     o += "\n{}".format(i.name)
@@ -377,86 +365,6 @@ async def roleme(ctx, *, args = None):
             if len(a) == 0:
                 embed.description = "{} Role not found in the self-roles list.\nSelf roles: `Announcement Notify`, `XP Notify`, `XF Notify`.".format(error_e)
                 await client.say(embed=embed)
-
-# }rep <user>
-@client.command(pass_context=True)
-async def rep(ctx, user: discord.Member = None):
-    embed = discord.Embed(colour=0x2F007F)
-    embed.set_footer(text=footer_text)
-    if len(started) == 0:
-        embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
-        await client.say(embed=embed)
-    else:
-        if ctx.message.author.id in reped:
-            embed.description = "{} You've already given a reputation point today.".format(error_e)
-            await client.say(embed=embed)
-        elif user == None:
-            embed.description = "{} No user mentioned.".format(error_e)
-            await client.say(embed=embed)
-        elif user.bot:
-            embed.description = "{} You cannot give reputation points to bots.".format(error_e)
-            await client.say(embed=embed)
-        elif user.id == ctx.message.author.id:
-            embed.description = "{} You cannot give reputation points to yourself.".format(error_e)
-            await client.say(embed=embed)
-        else:
-            embed.description = "{} **{}** has given a reputation point to **{}**.".format(rep_e, ctx.message.author.name, user.name)
-            await client.say(embed=embed)
-            reped.append(ctx.message.author.id)
-            reputations.append(user.id)
-            await client.send_message(client.get_channel(reps_chnl), user.id)
-
-# }reps [user]
-@client.command(pass_context=True)
-async def reps(ctx, user: discord.Member = None):
-    embed = discord.Embed(colour=0x2F007F)
-    embed.set_footer(text=footer_text)
-    if len(started) == 0:
-        embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
-        await client.say(embed=embed)
-    else:
-        if user == None:
-            author = ctx.message.author
-        else:
-            author = user
-        embed.description = "{} **{}** has `{}` reputation points.".format(rep_e, author.name, reputations.count(author.id))
-        await client.say(embed=embed)
-
-# }apply <support/staff/bot>
-@client.command(pass_context=True)
-async def apply(ctx, option = None):
-    embed = discord.Embed(colour=0x2F007F)
-    embed.set_footer(text=footer_text)
-    if len(started) == 0:
-        embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
-        await client.say(embed=embed)
-    else:
-        options = ["support", "staff", "bot"]
-        if option == None:
-            embed.description = "{} No option given.\nChoose:\n`support` to apply for a support team member.\n`staff` to apply for a server staff member.\n`bot` to apply for bot staff member.".format(error_e)
-            await client.say(embed=embed)
-        elif option.lower() not in options:
-            embed.description = "{} Invalid option.\nChoose:\n`support` to apply for a support team member.\n`staff` to apply for a server staff member.\n`bot` to apply for bot staff member.".format(error_e)
-            await client.say(embed=embed)
-        else:
-            if reputations.count(ctx.message.author.id) >= 15 and option == "support":
-                embed.description = "{} **{}** sent an application for `Support Team Member`.\n{} They currently have `{}` reputation points.".format(apply_e, ctx.message.author.name, rep_e, reputations.count(ctx.message.author.id))
-                await client.send_message(client.get_channel('510782409374040086'), embed=embed)
-                embed.description = "{} Application sent!".format(apply_e)
-                await client.say(embed=embed)
-            elif reputations.count(ctx.message.author.id) >= 30 and option == "staff":
-                embed.description = "{} **{}** sent an application for `Server Staff Member`.\n{} They currently have `{}` reputation points.".format(apply_e, ctx.message.author.name, rep_e, reputations.count(ctx.message.author.id))
-                await client.send_message(client.get_channel('510782409374040086'), embed=embed)
-                embed.description = "{} Application sent!".format(apply_e)
-                await client.say(embed=embed)
-            elif reputations.count(ctx.message.author.id) >= 50 and option == "bot":
-                embed.description = "{} **{}** sent an application for `Bot Staff Member`.\n{} They currently have `{}` reputation points.".format(apply_e, ctx.message.author.name, rep_e, reputations.count(ctx.message.author.id))
-                await client.send_message(client.get_channel('510782409374040086'), embed=embed)
-                embed.description = "{} Application sent!".format(apply_e)
-                await client.say(embed=embed)
-            else:
-                embed.description = "{} You do not have enough reputation points to apply for that role.\nUse `xg!staff` to see how many reputation points you need.".format(error_e)
-                await client.say(embed=embed)
                 
 # }suggest <suggestion>
 @client.command(pass_context=True)
@@ -528,7 +436,7 @@ async def say(ctx, *, args = None):
         else:
             await client.say("`{}`".format(args))
             await client.delete_message(ctx.message)
-            
+
 # }tos
 @client.command(pass_context=True)
 async def tos(ctx):
@@ -541,7 +449,7 @@ async def tos(ctx):
         embed.description = "Use `xp!tos` to see X protect's rules and TOS.\nUse `xf!tos` to see X fun's rules and TOS.\n\nThe other X bots don't have rules and TOS because they are not public yet."
         await client.say(embed=embed)
 
-''' COMMANDS FOR STAFF '''
+''' COMMANDS FOR PARTNER MANAGERS '''
 
 # }p <user>
 @client.command(pass_context=True)
@@ -556,7 +464,8 @@ async def p(ctx, user: discord.Member = None):
         owner = discord.utils.get(ctx.message.server.roles, id=owners_role)
         partner = discord.utils.get(ctx.message.server.roles, id=partners_role)
         staff = discord.utils.get(ctx.message.server.roles, id=staff_role)
-        if owner in author.roles or staff in author.roles:
+        pm = discord.utils.get(ctx.message.server.roles, id=pm_role)
+        if owner in author.roles or staff in author.roles or pm in author.roles:
             if user == None:
                 embed.description = "{} No user was mentioned.".format(error_e)
                 await client.say(embed=embed)
