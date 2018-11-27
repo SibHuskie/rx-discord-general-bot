@@ -1,4 +1,4 @@
-print("Starting...")
+print("Starting X General...")
 import discord
 from discord.ext.commands import Bot
 from discord.ext import commands
@@ -14,40 +14,57 @@ bot_prefix = ["xg!", "}"]
 client = commands.Bot(command_prefix=bot_prefix)
 footer_text = "[Realm X] - [X General]"
 limit = 100000000000000000
-version = "2.1"
-
-owners_role = "510748756858109953"
-xbots_role = "510749122257485835"
-staff_role = "510748890883031050"
-support_role = "510749024114966528"
-members_role = "510749251777855488"
-announcement_role = "510752070522109952"
-partners_role = "510787027051085834"
-pm_role = "515796622983036938"
-muted_role = "510753281945894923"
+version = "3.0"
 splitter = "**~~`====================`~~**"
 
+
+owner_roles = []
+manager_roles = []
+admin_roles = []
+mod_roles = []
+helper_roles = []
+partner_manager_roles = []
+partner_roles = []
+muted_roles = []
+member_roles = []
+self_roles = []
+logs = []
+joins_leaves = []
+
+owner_roles_chnl = '516605295816867871'
+manager_roles_chnl = '516606147558506507'
+admin_roles_chnl = '516605310203592704'
+mod_roles_chnl = '516605319665680405'
+helper_roles_chnl = '516605337248464906'
+partner_manager_roles_chnl = '516606847323734064'
+partner_roles_chnl = '516606872896405520'
+muted_roles_chnl = '516607156813037608'
+member_roles_chnl = '516607267127164942'
+self_roles_chnl = '516611549427793930'
+logs_chnl = '516614512657563658'
+log_chnl = '516594957432389632'
+joins_leaves_chnl = '516616002012839936'
+
 loading_e = "<a:loading:484705261609811979>"
-error_e = "<:error:506846074917486592>"
-joined_e = "<:joined:506846074657439776>"
-left_e = "<:left:506846074712096828>"
-serverinfo_e = "<:serverinfo:506846075102035968>"
-userinfo_e = "<:userinfo:506846074992984075>"
-avatar_e = "<:avatar:506846074464501771>"
-suggestion_e = "<:suggestion:506846075504689152>"
-upvote_e = "<:upvote:506846074699513885>"
-downvote_e = "<:downvote:506846074867286019>"
-lookup_e = "<:lookup:506846075177533450>"
-partner_e = "<:partner:506846074829537301>"
-log_e = "<:log:506846075148304399>"
-roleme_e = "<:roleme:506846075886370826>"
-pinggood_e = "<:pinggood:506846075219476481>"
-pingok_e = "<:pingok:506846075227996160>"
-pingbad_e = "<:pingbad:506846075076739072>"
-rep_e = "<:rep:510795018785783819>"
-reload_e = "<:reload:510803370001432578>"
-apply_e = "<:apply:510813958756892682>"
-worked_e = "<:worked:511103291690713088>"
+error_e = "<:error:516609910356574212>"
+joined_e = "<:joined:516609910318956552>"
+left_e = "<:left:516609910318956553>"
+serverinfo_e = "<:serverinfo:516609910088400922>"
+userinfo_e = "<:userinfo:516609910465757184>"
+avatar_e = "<:avatar:516609910008578049>"
+suggestion_e = "<:suggestion:516609910088138772>"
+upvote_e = "<:upvote:516609910235201536>"
+downvote_e = "<:downvote:516609910214230016>"
+lookup_e = "<:lookup:516609910553837578>"
+partner_e = "<:partner:516609910390390815>"
+log_e = "<:log:516609910415425536>"
+roleme_e = "<:roleme:516609911006691338>"
+pinggood_e = "<:pinggood:516609909819965441>"
+pingok_e = "<:pingok:516609909832417296>"
+pingbad_e = "<:pingbad:516609910168092682>"
+reload_e = "<:reload:516609910235070472>"
+worked_e = "<:worked:516609910310699042>"
+roles_e = "<:roles:516614182045614080>"
 
 help1 = "```diff"
 help1 += "\n--- COMMANDS FOR EVERYONE ---"
@@ -84,14 +101,20 @@ help2 += "\n--- COMMANDS FOR PARTNER MANAGERS ---"
 help2 += "\nxg!p <user>"
 help2 += "\n-    Gives or removes the partner role for the mentioned user."
 help2 += "\n"
-help2 += "\n--- COMMANDS FOR OWNERS ---"
+help2 += "\n--- COMMANDS FOR MANAGERS ---"
 help2 += "\nxg!rawsay <text>"
 help2 += "\n-    Forces the bot to say something. Supports formatting."
 help2 += "\nxg!embed <title> | <description> | <field name> | <field value> | <footer>"
 help2 += "\n-    Creates embeds."
+help2 += "\n"
+help2 += "\n--- COMMANDS FOR OWNERS ---"
+help2 += "\nxg!setrole <option> <role name>"
+help2 += "\n-    Used to manage roles in the bot's database."
+help2 += "\nxg!selfroles <role name>"
+help2 += "\n-    Used to manage self-roles."
+help2 += "\nxg!log <channel name>"
+help2 += "\n-    Sets the logs channel."
 help2 += "\n```"
-
-log_chnl = "510765922152218637"
 
 ''''''
 
@@ -99,54 +122,119 @@ log_chnl = "510765922152218637"
 started = []
 @client.event
 async def on_ready():
+    async for i in client.logs_from(client.get_channel(owner_roles_chnl), limit=limit):
+        a = i.content.split(' | ')
+        server = client.get_server(a[0])
+        role = discord.utils.get(server.roles, id=a[1])
+        owner_roles.append(role)
+    print("[START UP] Loaded owner roles.")
+    async for i in client.logs_from(client.get_channel(manager_roles_chnl), limit=limit):
+        a = i.content.split(' | ')
+        server = client.get_server(a[0])
+        role = discord.utils.get(server.roles, id=a[1])
+        manager_roles.append(role)
+    print("[START UP] Loaded manager roles.")
+    async for i in client.logs_from(client.get_channel(admin_roles_chnl), limit=limit):
+        a = i.content.split(' | ')
+        server = client.get_server(a[0])
+        role = discord.utils.get(server.roles, id=a[1])
+        admin_roles.append(role)
+    print("[START UP] Loaded administrator roles.")
+    async for i in client.logs_from(client.get_channel(mod_roles_chnl), limit=limit):
+        a = i.content.split(' | ')
+        server = client.get_server(a[0])
+        role = discord.utils.get(server.roles, id=a[1])
+        mod_roles.append(role)
+    print("[START UP] Loaded moderator roles.")
+    async for i in client.logs_from(client.get_channel(helper_roles_chnl), limit=limit):
+        a = i.content.split(' | ')
+        server = client.get_server(a[0])
+        role = discord.utils.get(server.roles, id=a[1])
+        helper_roles.append(role)
+    print("[START UP] Loaded helper roles.")
+    async for i in client.logs_from(client.get_channel(partner_manager_roles_chnl), limit=limit):
+        a = i.content.split(' | ')
+        server = client.get_server(a[0])
+        role = discord.utils.get(server.roles, id=a[1])
+        partner_manager_roles.append(role)
+    print("[START UP] Loaded partner manager roles.")
+    async for i in client.logs_from(client.get_channel(partner_roles_chnl), limit=limit):
+        a = i.content.split(' | ')
+        server = client.get_server(a[0])
+        role = discord.utils.get(server.roles, id=a[1])
+        partner_roles.append(role)
+    print("[START UP] Loaded partner roles.")
+    async for i in client.logs_from(client.get_channel(member_roles_chnl), limit=limit):
+        a = i.content.split(' | ')
+        server = client.get_server(a[0])
+        role = discord.utils.get(server.roles, id=a[1])
+        member_roles.append(role)
+    print("[START UP] Loaded member roles.")
+    async for i in client.logs_from(client.get_channel(self_roles_chnl), limit=limit):
+        a = i.content.split(' | ')
+        server = client.get_server(a[0])
+        role = discord.utils.get(server.roles, id=a[1])
+        self_roles.append(role)
+    print("[START UP] Loaded self roles.")
+    async for i in client.logs_from(client.get_channel(muted_roles_chnl), limit=limit):
+        a = i.content.split(' | ')
+        server = client.get_server(a[0])
+        role = discord.utils.get(server.roles, id=a[1])
+        muted_roles.append(role)
+    print("[START UP] Loaded muted roles.")
+    async for i in client.logs_from(client.get_channel(logs_chnl), limit=limit):
+        logs.append(i.content)
+    print("[START UP] Loaded logs channels.")
+    async for i in client.logs_from(client.get_channel(joins_leaves_chnl), limit=limit):
+        joins_leaves.append(i.content)
+    print("[START UP] Loaded join-leave channels.")
     started.append("+1")
     print("[START UP] Finished.")
     await client.change_presence(game=discord.Game(name="}help | }invite"))
     m = splitter
     m += "\n{} **__Bot Restart__** {} `-` Version: {}".format(log_e, reload_e, version)
     t1 = time.perf_counter()
-    await client.send_typing(client.get_channel('510765922152218637'))
+    await client.send_typing(client.get_channel(log_chnl))
     t2 = time.perf_counter()
     m += "\n{} Ping: `{}ms`".format(pingok_e, round((t2-t1)*1000))
     await client.send_message(client.get_channel(log_chnl), m)
 
 # EVENT - JOIN / LEAVE
 @client.async_event
-async def on_member_join(userName: discord.User):
+async def on_member_join(user: discord.User):
     embed = discord.Embed(colour=0x2F007F)
     embed.set_footer(text=footer_text)
-    embed.set_image(url='https://i.imgur.com/QyY8owZ.png')
-    emojis = ["<a:bobo:474228327734050826>", "<a:ThumbsUpParrot:476294787285254144>", "<a:CatDance:476294788576968705>"]
-    m = "Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay.".format(userName.id)
-    m2 = "**~~`= = = = = = = = = ✘ = = = = = = = = =`~~**"
-    m2 += "\n{} Welcome to **Realm ✘**, <@{}>! We hope you enjoy your stay here.".format(random.choice(emojis), userName.id)
-    m2 += "\n:clipboard: All the information are in the <#510747462445826056> channel, but feel free to ask the staff about anything."
-    m2 += "\n**~~`= = = = = = = = = ✘ = = = = = = = = =`~~**"
-    m2 += "\n:handshake:  If you want to partner please DM a staff member."
-    m2 += "\n**~~`= = = = = = = = = ✘ = = = = = = = = =`~~**"
-    m2 += "\n:white_check_mark: Thank you for joining!"
-    m2 += "\n**~~`= = = = = = = = = ✘ = = = = = = = = =`~~**"
-    m2 += "\n:shield: *__Hey, you should also check out our cool public bots.__*"
-    m2 += "\n:link: *__Just use `}invite` to get the invite links.__*"
-    m2 += "\n**~~`= = = = = = = = = ✘ = = = = = = = = =`~~**"
-    embed.description = m2
-    await client.send_message(client.get_channel("510747587071180801"), "{} {}".format(random.choice(emojis), m))
-    server = userName.server
-    await client.send_message(client.get_channel("510747536823418880"), "{} `{}` joined the server! We now have **{}** members.".format(joined_e, userName, len(server.members)))
-    try:
-        await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id=members_role))
-        await asyncio.sleep(1.25)
-        await client.add_roles(server.get_member(userName.id), discord.utils.get(server.roles, id=announcement_role))
-        await client.send_message(userName, embed=embed)
-    except:
-        print("")
+    if user.server.id == '452865346081128448':
+        link = "[You can also click here to join the X bots' support server.](https://discord.gg/geVrByH)"
+    elif user.server.id == '516573414664962050':
+        link = "[You can also click here to join the community server.](https://discord.gg/yr7WHYB)"
+    embed.description = "Welcome to **{}**, <@{}>! We hope you enjoy your stay.\nYou can use `xg!invite` to check out our public bots.\n\n{}".format(user.server.name, user.id, link)
+    if user.server.id == '452865346081128448':
+        await client.send_message(client.get_channel("510747587071180801"), ":wave: Welcome to **{}**, <@{}>! We hope you enjoy your stay.".format(user.server.name, user.id))
+    elif user.server.id == '516573414664962050':
+        await client.send_message(client.get_channel("516575864884953129"), ":wave: Welcome to **{}**, <@{}>! We hope you enjoy your stay.".format(user.server.name, user.id))
+    for i in joins_leaves:
+        a = i.split(' | ')
+        if a[0] == user.server.id:
+            await client.send_message(client.get_channel(a[1]), "{} `{}` joined the server! We now have **{}** members.".format(joined_e, user, len(user.server.members)))
+            break
+    for i in member_roles:
+        if i in user.server.roles:
+            try:
+                server = user.server
+                await client.add_roles(server.get_member(user.id), i)
+                await asyncio.sleep(1.25)
+                await client.send_message(user, embed=embed)
+            except:
+                print("[JOIN EVENT] Error.")
 
 @client.async_event
-async def on_member_remove(userName: discord.User):
-    server = client.get_server('452865346081128448')
-    await client.send_message(client.get_channel("510747536823418880"), "{} `{}` left the server! We now have **{}** members.".format(left_e, userName, len(server.members)))
-
-
+async def on_member_remove(user: discord.User):
+    for i in joins_leaves:
+        a = i.split(' | ')
+        if a[0] == user.server.id:
+            await client.send_message(client.get_channel(a[1]), "{} `{}` left the server! We now have **{}** members.".format(left_e, user, len(user.server.members)))
+            break
 
 ''' COMMANDS FOR EVERYONE '''
 client.remove_command('help')
@@ -182,7 +270,7 @@ async def ping(ctx, option = None):
         embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
         await client.say(embed=embed)
     else:
-        options = ["g", "m", "w", "f", "p", "all"]
+        options = ["g", "m", "s", "f", "p", "all"]
         if '}' in ctx.message.content:
             if option == None:
                 embed.description = "{} Please specify which bot's ping you want to see.\nOptions: `g`, `m`, `w`, `f`, `p`, `all`.".format(error_e)
@@ -194,17 +282,27 @@ async def ping(ctx, option = None):
                 t1 = time.perf_counter()
                 await client.send_typing(ctx.message.channel)
                 t2 = time.perf_counter()
-                ping = round((t2-t1)*1000)
-                if ping > 300:
-                    m = "{} The bot is lagging.".format(pingbad_e)
-                elif ping > 200:
+                p = round((t2-t1)*1000)
+                if p > 300:
+                    m = "{} The bot is lagging.\nAttempting to fix the bot's ping. This should take about a minute to finish.".format(pingbad_e)
+                elif p > 200:
                     m = "{} The bot might be lagging.".format(pingok_e)
                 else:
                     m = "{} The bot isn't lagging.".format(pinggood_e)
-                embed.description = "My ping is `{}`ms.\n{}".format(ping, m)
+                embed.description = "My ping is `{}`ms.\n{}".format(p, m)
                 await client.say(embed=embed)
         else:
-            embed.description = "My ping is `{}`ms.\n{}".format(ping, m)
+            t1 = time.perf_counter()
+            await client.send_typing(ctx.message.channel)
+            t2 = time.perf_counter()
+            p = round((t2-t1)*1000)
+            if p > 300:
+                m = "{} The bot is lagging.\nAttempting to fix the bot's ping. This should take about a minute to finish.".format(pingbad_e)
+            elif p > 200:
+                m = "{} The bot might be lagging.".format(pingok_e)
+            else:
+                m = "{} The bot isn't lagging.".format(pinggood_e)
+            embed.description = "My ping is `{}`ms.\n{}".format(p, m)
             await client.say(embed=embed)
 
 # }invite
@@ -216,7 +314,7 @@ async def invite(ctx):
         embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
         await client.say(embed=embed)
     else:
-        embed.description = "Here is the default link for the server: https://discord.gg/yr7WHYB\n\n[Click here](https://discordapp.com/oauth2/authorize?client_id=453210408384462848&scope=bot&permissions=8) to invite **✘ Fun**.\n[Click here](https://discordapp.com/oauth2/authorize?client_id=499840342464397312&scope=bot&permissions=8) to invite **✘ Protect**."
+        embed.description = "Community server: https://discord.gg/yr7WHYB\n\nSupport server: https://discord.gg/geVrByH\n\n[Click here](https://discordapp.com/oauth2/authorize?client_id=453210408384462848&scope=bot&permissions=8) to invite **✘ Fun**.\n[Click here](https://discordapp.com/oauth2/authorize?client_id=499840342464397312&scope=bot&permissions=8) to invite **✘ Protect**."
         await client.say(embed=embed)
 
 # }staff
@@ -228,25 +326,36 @@ async def staff(ctx):
         embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
         await client.say(embed=embed)
     else:
-        owner = discord.utils.get(ctx.message.server.roles, id=owners_role)
-        staff = discord.utils.get(ctx.message.server.roles, id=staff_role)
-        support = discord.utils.get(ctx.message.server.roles, id=support_role)
-        embed.description = "Loading staff list... {}".format(loading_e)
+        embed.description = "{} Loading staff list... {}".format(roles_e, loading_e)
         k = await client.say(embed=embed)
+        
         try:
-            o = "<@&{}>".format(owner.id)
-            s = "<@&{}>)".format(staff.id)
-            xp = "<@&510752051400278028>"
-            xf = "<@&510752018982371338>"
-            su = "<@&{}>".format(support.id)
-            for i in ctx.message.server.members:
-                if owner in i.roles:
-                    o += "\n{}".format(i.name)
-                elif staff in i.roles:
-                    s += "\n{}".format(i.name)
-                elif support in i.roles:
-                    su += "\n{}".format(i.name)
-            embed.description = "**__STAFF LIST:__**\n{}\n\n{}\n\n{}\n\n{}\n\n{}".format(o, s, xp, xf, su)
+            roles = {"owners" : owner_roles,
+                     "managers" : manager_roles,
+                     "admins" : admin_roles,
+                     "mods" : mod_roles,
+                     "helpers" : helper_roles,
+                     "pms" : partner_manager_roles}
+            owners = ""
+            managers = ""
+            admins = ""
+            mods = ""
+            helpers = ""
+            pms = ""
+            roles_l = {"owners" : owners,
+                       "managers" : managers,
+                       "admins" : admins,
+                       "mods" : mods,
+                       "helpers" : helpers,
+                       "pms" : pms}
+            for i in roles:
+                for u in roles[i]:
+                    if u in ctx.message.server.roles:
+                        for o in ctx.message.server.members:
+                            if u in o.roles:
+                                roles_l[i] += "\n`{}`".format(o.name)
+                        embed.add_field(name="{}".format(u.name), value=roles_l[i], inline=True)
+            embed.description = "{} **__STAFF LIST:__**".format(roles_e)
             await client.edit_message(k, embed=embed)
         except:
             embed.description = "{} There was an error while loading the staff list. Please try again.".format(error_e)
@@ -261,13 +370,18 @@ async def userinfo(ctx, user: discord.User = None):
         embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
         await client.say(embed=embed)
     else:
-        punish = discord.utils.get(ctx.message.server.roles, id=muted_role)
+        a = []
+        for i in muted_roles:
+            if i in ctx.message.server.roles:
+                a.append(i)
+                break
         if user == None:
             author = ctx.message.author
         else:
             author = user
         embed.set_thumbnail(url=author.avatar_url)
-        m = "{} USER INFORMATION".format(userinfo_e)
+        m = "{} **__USER INFORMATION:__**".format(userinfo_e)
+        m += "\n"
         m += "\n**NAME:** `{}`".format(author)
         m += "\n**ID:** `{}`".format(author.id)
         m += "\n**CREATED AT:** `{}`".format(author.created_at)
@@ -278,10 +392,11 @@ async def userinfo(ctx, user: discord.User = None):
         m += "\n**NICKNAME:** `{}`".format(author.nick)
         m += "\n**TOP ROLE:** `{}`".format(author.top_role)
         m += "\n**VOICE CHANNEL:** `{}`".format(author.voice_channel)
-        if punish in author.roles:
-            m += "\n**PUNISHED:** `True`"
-        else:
-            m += "\n**PUNISHED:** `False`"
+        if len(a) != 0:
+            if a[0] in author.roles:
+                m += "\n**MUTED:** `True`"
+            else:
+                m += "\n**MUTED:** `False`"
         embed.description = m
         await client.say(embed=embed)
 
@@ -295,19 +410,17 @@ async def serverinfo(ctx):
         await client.say(embed=embed)
     else:
         embed.set_thumbnail(url=ctx.message.server.icon_url)
-        m = "{} SERVER INFORMATION".format(serverinfo_e)
+        m = "{} **__SERVER INFORMATION:__**".format(serverinfo_e)
+        m += "\n"
         m += "\n**MEMBERS:** `{}`".format(len(ctx.message.server.members))
         m += "\n**CHANNELS:** `{}`".format(len(ctx.message.server.channels))
         m += "\n**EMOJIS:** `{}`".format(len(ctx.message.server.emojis))
         m += "\n**ID:** `{}`".format(ctx.message.server.id)
         m += "\n**REGION:** `{}`".format(ctx.message.server.region)
         m += "\n**ROLES:** `{}`".format(len(ctx.message.server.roles))
-        m += "\n**OWNER:** `{}`".format(ctx.message.server.owner)
+        m += "\n**CREATED BY:** `{}`".format(ctx.message.server.owner)
         m += "\n**CREATED AT:** `{}`".format(ctx.message.server.created_at)
-        m += "\n**RELEASE DATE:** `25th of June, 2018`"
-        m += "\n**REBIRTH DATE:** `10th of November, 2018`"
         embed.description = m
-        embed.set_image(url='https://image.ibb.co/hzfvqq/banner.png')
         await client.say(embed=embed)
 
 # }avatar [user]
@@ -342,14 +455,17 @@ async def roleme(ctx, *, args = None):
         await client.say(embed=embed)
     else:
         author = ctx.message.author
+        m = ""
+        for i in self_roles:
+            if i in ctx.message.server.roles:
+                m += "\n`{}`".format(i.name)
         if args == None:
-            embed.description = "{} No role given.\nSelf roles: `Announcement Notify`, `XP Notify`, `XF Notify`.".format(error_e)
+            embed.description = "{} No role given.\nSelf roles:\n{}".format(error_e, m)
             await client.say(embed=embed)
         else:
-            roles = ['510751732767129620', '510751970345222146', '510752070522109952']
             a = []
             for i in ctx.message.server.roles:
-                if args.lower() in str(i.name.lower()) and i.id in roles:
+                if args.lower() in str(i.name.lower()) and i in self_roles:
                     if i in author.roles:
                         await client.remove_roles(author, i)
                         embed.description = "{} Removed the `{}` role from **{}**.".format(roleme_e, i.name, author.name)
@@ -363,9 +479,9 @@ async def roleme(ctx, *, args = None):
                         a.append("+1")
                         break
             if len(a) == 0:
-                embed.description = "{} Role not found in the self-roles list.\nSelf roles: `Announcement Notify`, `XP Notify`, `XF Notify`.".format(error_e)
+                embed.description = "{} Role not found in the self-roles list.\nSelf roles:\n{}".format(error_e, m)
                 await client.say(embed=embed)
-                
+
 # }suggest <suggestion>
 @client.command(pass_context=True)
 async def suggest(ctx, *, args = None):
@@ -384,11 +500,15 @@ async def suggest(ctx, *, args = None):
         else:
             msg = discord.Embed(colour=0x2F007F)
             msg.set_footer(text=footer_text)
-            msg.description = "{} {}\n**~~= = = = = = = = = = = = = = = = = = = =~~**\nSuggested by: `{} ### {}`\nIf you like this suggestion react with <:upvote:506846074699513885> and if you don't like it react with <:downvote:506846074867286019>.".format(suggestion_e, args, ctx.message.author, ctx.message.author.id)
-            message = await client.send_message(client.get_channel('510747496008646667'), embed=msg)
-            await client.add_reaction(message, ':downvote:506846074867286019')
-            await client.add_reaction(message, ':upvote:506846074699513885')
-            embed.description = "{} Suggestion sent! You can see it in the <#510747496008646667> channel.".format(suggestion_e)
+            msg.description = "{} {}\n**~~= = = = = = = = = = = = = = = = = = = =~~**\nSuggested by: `{} ### {}`\nIf you like this suggestion react with <:upvote:516609910235201536> and if you don't like it react with <:downvote:516609910214230016>.".format(suggestion_e, args, ctx.message.author, ctx.message.author.id)
+            if ctx.message.server.id == '516573414664962050':
+                message = await client.send_message(client.get_channel('516575777974648835'), embed=msg)
+                embed.description = "{} Suggestion sent! You can see it in the <#516575777974648835> channel.".format(suggestion_e)
+            elif ctx.message.server.id == '452865346081128448':
+                message = await client.send_message(client.get_channel('510747496008646667'), embed=msg)
+                embed.description = "{} Suggestion sent! You can see it in the <#510747496008646667> channel.".format(suggestion_e)
+            await client.add_reaction(message, ':downvote:516609910214230016')
+            await client.add_reaction(message, ':upvote:516609910235201536')
             await client.say(embed=embed)
 
 # }lookup <id>
@@ -407,7 +527,8 @@ async def lookup(ctx, ID = None):
             try:
                 user = await client.get_user_info(ID)
                 embed.set_thumbnail(url=user.avatar_url)
-                m = "{} USER INFORMATION".format(lookup_e)
+                m = "{} **__USER INFORMATION:__**".format(lookup_e)
+                m += "\n"
                 m += "\n**NAME:** `{}`".format(user)
                 m += "\n**ID:** `{}`".format(user.id)
                 m += "\n**CREATED AT:** `{}`".format(user.created_at)
@@ -461,40 +582,59 @@ async def p(ctx, user: discord.Member = None):
         await client.say(embed=embed)
     else:
         author = ctx.message.author
-        owner = discord.utils.get(ctx.message.server.roles, id=owners_role)
-        partner = discord.utils.get(ctx.message.server.roles, id=partners_role)
-        staff = discord.utils.get(ctx.message.server.roles, id=staff_role)
-        pm = discord.utils.get(ctx.message.server.roles, id=pm_role)
-        if owner in author.roles or staff in author.roles or pm in author.roles:
-            if user == None:
-                embed.description = "{} No user was mentioned.".format(error_e)
+        partner = []
+        roles = [owner_roles, manager_roles, admin_roles, mod_roles, helper_roles, partner_manager_roles]
+        for i in partner_roles:
+            if i in ctx.message.server.roles:
+                partner.append(i)
+                break
+        if len(partner) != 0:
+            a = []
+            for i in roles:
+                for u in i:
+                    if u in ctx.message.server.roles and u in ctx.message.author.roles:
+                        if user == None:
+                            embed.description = "{} No user was mentioned.".format(error_e)
+                            await client.say(embed=embed)
+                        elif user.bot:
+                            embed.description = "{} Bots can't be partners.".format(error_e)
+                            await client.say(embed=embed)
+                        elif partner[0] in user.roles:
+                            await client.remove_roles(user, partner[0])
+                            embed.description = "{} **{}** removed the partner role from **{}**.".format(partner_e, author.name, user.name)
+                            await client.say(embed=embed)
+                            m = splitter
+                            m += "\n{} **__Removed Partner Role__** {}".format(log_e, partner_e)
+                            m += "\n`Author:` {} ### {}".format(author, author.id)
+                            m += "\n`Target:` {} ### {}".format(user, user.id)
+                            for o in logs:
+                                b = o.split(' | ')
+                                if b[0] == ctx.message.server.id:
+                                    c = client.get_channel(b[1])
+                                    await client.send_message(c, m)
+                        else:
+                            await client.add_roles(user, partner[0])
+                            embed.description = "{} **{}** gave the partner role to **{}**.".format(partner_e, author.name, user.name)
+                            await client.say(embed=embed)
+                            m = splitter
+                            m += "\n{} **__Added Partner Role__** {}".format(log_e, partner_e)
+                            m += "\n`Author:` {} ### {}".format(author, author.id)
+                            m += "\n`Target:` {} ### {}".format(user, user.id)
+                            for o in logs:
+                                b = o.split(' | ')
+                                if b[0] == ctx.message.server.id:
+                                    c = client.get_channel(b[1])
+                                    await client.send_message(c, m)
+                        a.append("+1")
+                        break
+            if len(a) == 0:
+                embed.description = "{} This command can only be used by partner managers and staff.".format(error_e)
                 await client.say(embed=embed)
-            elif user.bot:
-                embed.description = "{} Bots can't be partners.".format(error_e)
-                await client.say(embed=embed)
-            elif partner in user.roles:
-                await client.remove_roles(user, partner)
-                embed.description = "{} **{}** removed the partner role from **{}**.".format(partner_e, author.name, user.name)
-                await client.say(embed=embed)
-                m = "{}".format(splitter)
-                m += "\n{} **__Removed Partner Role__** {}".format(log_e, partner_e)
-                m += "\n`Author:` {} ### {}".format(author, author.id)
-                m += "\n`Target:` {} ### {}".format(user, user.id)
-                await client.send_message(client.get_channel(log_chnl), m)
-            else:
-                await client.add_roles(user, partner)
-                embed.description = "{} **{}** gave the partner role to **{}**.".format(partner_e, author.name, user.name)
-                await client.say(embed=embed)
-                m = "{}".format(splitter)
-                m += "\n{} **__Added Partner Role__** {}".format(log_e, partner_e)
-                m += "\n`Author:` {} ### {}".format(author, author.id)
-                m += "\n`Target:` {} ### {}".format(user, user.id)
-                await client.send_message(client.get_channel(log_chnl), m)
         else:
-            embed.description = "{} This command can only be used by partner managers and owners.".format(error_e)
+            embed.description = "{} No partner role found in the database.".format(error_e)
             await client.say(embed=embed)
 
-''' COMMANDS FOR OWNERS '''
+''' COMMANDS FOR MANAGERS '''
 
 # }rawsay <text>
 @client.command(pass_context=True)
@@ -506,19 +646,24 @@ async def rawsay(ctx, *, args = None):
         await client.say(embed=embed)
     else:
         author = ctx.message.author
-        owner = discord.utils.get(ctx.message.server.roles, id=owners_role)
-        if owner in author.roles:
-            if args == None:
-                embed.description = "{} Please give a message that you want me to say.".format(error_e)
-                await client.say(embed=embed)
-            elif len(str(args)) > 1900:
-                embed.description = "{} The message cannot be longer than 1900 characters.".format(error_e)
-                await client.say(embed=embed)
-            else:
-                await client.say(args)
-                await client.delete_message(ctx.message)
-        else:
-            embed.description = "{} This command can only be used by owners.".format(error_e)
+        roles = [owner_roles, manager_roles]
+        a = []
+        for i in roles:
+            for u in i:
+                if u in ctx.message.server.roles and u in ctx.message.author.roles:
+                    if args == None:
+                        embed.description = "{} Please give a message that you want me to say.".format(error_e)
+                        await client.say(embed=embed)
+                    elif len(str(args)) > 1900:
+                        embed.description = "{} The message cannot be longer than 1900 characters.".format(error_e)
+                        await client.say(embed=embed)
+                    else:
+                        await client.say(args)
+                        await client.delete_message(ctx.message)
+                    a.append("+1")
+                    break
+        if len(a) == 0:
+            embed.description = "{} This command can only be used by managers and owners.".format(error_e)
             await client.say(embed=embed)
 
 # }embed <title> <description> <field name> <field value> <footer>
@@ -531,38 +676,203 @@ async def embed(ctx, *, args = None):
         await client.say(embed=embed)
     else:
         author = ctx.message.author
-        owner = discord.utils.get(ctx.message.server.roles, id=owners_role)
-        if owner in author.roles:
-            if args == None:
-                embed.description = "{} No arguments were given.\nProper usage: `title/none | description/none | name/none | value/none | footer/none`.".format(error_e)
-                await client.say(embed=embed)
-            elif ' | ' in str(args):
-                a = args.split(' | ')
-                try:
-                    color = discord.Color(random.randint(0x000000, 0xFFFFFF))
-                    msg = discord.Embed(colour=color)
-                    if a[0] == "none":
-                        msg.title=""
+        roles = [owner_roles, manager_roles]
+        a = []
+        for i in roles:
+            for u in i:
+                if u in ctx.message.server.roles and u in ctx.message.author.roles:
+                    if args == None:
+                        embed.description = "{} No arguments were given.\nProper usage: `title/none | description/none | name/none | value/none | footer/none`.".format(error_e)
+                        await client.say(embed=embed)
+                    elif ' | ' in str(args):
+                        a = args.split(' | ')
+                        try:
+                            color = discord.Color(random.randint(0x000000, 0xFFFFFF))
+                            msg = discord.Embed(colour=color)
+                            if a[0] == "none":
+                                msg.title=""
+                            else:
+                                msg.title=a[0]
+                            if a[1] == "none":
+                                msg.description=""
+                            else:
+                                msg.description=a[1]
+                            if a[4] == "none":
+                                msg.set_footer(text="")
+                            else:
+                                msg.set_footer(text=a[4])
+                            if a[2] != "none" or a[3] != "none":
+                                msg.add_field(name=a[2], value=a[3])
+                            await client.say(embed=msg)
+                        except:
+                            embed.description = "{} There was an error while creating or sending the embed.".format(error_e)
+                            await client.say(embed=embed)
                     else:
-                        msg.title=a[0]
-                    if a[1] == "none":
-                        msg.description=""
-                    else:
-                        msg.description=a[1]
-                    if a[4] == "none":
-                        msg.set_footer(text="")
-                    else:
-                        msg.set_footer(text=a[4])
-                    if a[2] != "none" or a[3] != "none":
-                        msg.add_field(name=a[2], value=a[3])
-                    await client.say(embed=msg)
-                except:
-                    embed.description = "{} There was an error while creating or sending the embed.".format(error_e)
+                        embed.description = "{} The command was used incorrectly.\nProper usage: `title/none | description/none | name/none | value/none | footer/none`.".format(error_e)
+                        await client.say(embed=embed)
+                a.append("+1")
+                break
+        if len(a) == 0:
+            embed.description = "{} This command can only be used by managers and owners.".format(error_e)
+            await client.say(embed=embed)
+
+''' COMMANDS FOR OWNERS '''
+# }setrole <option> <role name>
+@client.command(pass_context=True)
+async def setrole(ctx, option = None, *, args = None):
+    embed = discord.Embed(colour=0x2F007F)
+    embed.set_footer(text=footer_text)
+    if len(started) == 0:
+        embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
+        await client.say(embed=embed)
+    else:
+        author = ctx.message.author
+        a = []
+        for i in owner_roles:
+            if i in ctx.message.server.roles and i in ctx.message.author.roles:
+                options = ["owner", "manager", "admin", "mod", "helper", "partner-manager", "partner", "muted", "member"]
+                if option == None or args == None:
+                    embed.description = "{} Not all arguments were given.\nOptions: `owner`, `manager`, `admin`, `mod`, `helper`, `partner-manager`, `partner`, `muted`, `member`.\nTo remove a role from the database write the role's name like this: `<role name> | none`.".format(error_e)
                     await client.say(embed=embed)
-            else:
-                embed.description = "{} The command was used incorrectly.\nProper usage: `title/none | description/none | name/none | value/none | footer/none`.".format(error_e)
+                elif option.lower() not in options:
+                    embed.description = "{} Invalid option.\nOptions: `owner`, `manager`, `admin`, `mod`, `helper`, `partner-manager`, `partner`, `muted`, `member`.\nTo remove a role from the database write the role's name like this: `<role name> | none`.".format(error_e)
+                    await client.say(embed=embed)
+                else:
+                    t = {"owner" : owner_roles_chnl,
+                         "manger" : manager_roles_chnl,
+                         "admin" : admin_roles_chnl,
+                         "mod" : mod_roles_chnl,
+                         "helper" : helper_roles_chnl,
+                         "partner-manager" : partner_manager_roles_chnl,
+                         "partner" : partner_roles_chnl,
+                         "muted" : muted_roles_chnl,
+                         "member" : member_roles_chnl}
+                    k = {"owner" : owner_roles,
+                         "manger" : manager_roles,
+                         "admin" : admin_roles,
+                         "mod" : mod_roles,
+                         "helper" : helper_roles,
+                         "partner-manager" : partner_manager_roles,
+                         "partner" : partner_roles,
+                         "muted" : muted_roles,
+                         "member" : member_roles}
+                    embed.description = "{} Editing roles database... {}".format(roles_e, loading_e)
+                    h = await client.say(embed=embed)
+                    p = []
+                    r = []
+                    for u in ctx.message.server.roles:
+                        if ' | ' in args:
+                            y = args.split(' | ')
+                            args = y[0]
+                            r.append(y[1])
+                        if args.lower() in str(u.name.lower()):
+                            p.append("+1")
+                            if "none" in r:
+                                async for o in client.logs_from(client.get_channel(t[option]), limit=limit):
+                                    b = o.content.split(' | ')
+                                    if b[0] == ctx.message.server.id and b[1] == u.id:
+                                        await client.delete_message(o)
+                                        k[option].remove(u)
+                                        break
+                                embed.description = "{} **{}** removed `{}` from the `{}` roles database.".format(roles_e, author.name, u.name, option)
+                                await client.edit_message(h, embed=embed)
+                                m = splitter
+                                m += "\n{} **__Set Role__** {}".format(log_e, roles_e)
+                                m += "\n`Author:` {} ### {}".format(author, author.id)
+                                m += "\n`Removed role:` {} ### {}".format(u.name, u.id)
+                                m += "\n`Role type:` {}".format(option)
+                                for o in logs:
+                                    b = o.split(' | ')
+                                    if b[0] == ctx.message.server.id:
+                                        c = client.get_channel(b[1])
+                                        await client.send_message(c, m)
+                                break
+                            elif option.lower() != "member":
+                                async for o in client.logs_from(client.get_channel(t[option]), limit=limit):
+                                    b = o.content.split(' | ')
+                                    if b[0] == ctx.message.server.id:
+                                        k[option].remove(discord.utils.get(ctx.message.server.roles, id=b[1]))
+                                        await client.delete_message(o)
+                                        break
+                                await client.send_message(client.get_channel(t[option]), "{} | {}".format(ctx.message.server.id, u.id))
+                                k[option].append(u)
+                                embed.description = "{} **{}** set the `{}` role as `{}`.".format(roles_e, author.name, u.name, option)
+                                await client.edit_message(h, embed=embed)
+                                m = splitter
+                                m += "\n{} **__Set Role__** {}".format(log_e, roles_e)
+                                m += "\n`Author:` {} ### {}".format(author, author.id)
+                                m += "\n`Set role:` {} ### {}".format(u.name, u.id)
+                                m += "\n`Set as:` {}".format(option)
+                                for o in logs:
+                                    b = o.split(' | ')
+                                    if b[0] == ctx.message.server.id:
+                                        c = client.get_channel(b[1])
+                                        await client.send_message(c, m)
+                                break
+                            else:
+                                await client.send_message(client.get_channel(t[option]), "{} | {}".format(ctx.message.server.id, u.id))
+                                k[option].append(u)
+                                embed.description = "{} **{}** set the `{}` role as `{}`/`auto role`.".format(roles_e, author.name, u.name, option)
+                                await client.edit_message(h, embed=embed)
+                                m = splitter
+                                m += "\n{} **__Set Role__** {}".format(log_e, roles_e)
+                                m += "\n`Author:` {} ### {}".format(author, author.id)
+                                m += "\n`Set role:` {} ### {}".format(u.name, u.id)
+                                m += "\n`Set as:` {}/auto role".format(option)
+                                for o in logs:
+                                    b = o.split(' | ')
+                                    if b[0] == ctx.message.server.id:
+                                        c = client.get_channel(b[1])
+                                        await client.send_message(c, m)
+                                break
+                    if len(p) == 0:
+                        embed.description = "{} Role not found.".format(error_e)
+                        await client.edit_message(h, embed=embed)
+                a.append("+1")
+                break
+        if len(a) == 0:
+            embed.description = "{} This command can only be used by owners.".format(error_e)
+            await client.say(embed=embed)
+
+# }selfroles <role name>
+@client.command(pass_context=True)
+async def selfroles(ctx, *, args = None):
+    embed = discord.Embed(colour=0x2F007F)
+    embed.set_footer(text=footer_text)
+    if len(started) == 0:
+        embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
+        await client.say(embed=embed)
+    else:
+        author = ctx.message.author
+        a = []
+        for i in owner_roles:
+            if i in ctx.message.server.roles and i in ctx.message.author.roles:
+                embed.description = "Command not finished yet."
                 await client.say(embed=embed)
-        else:
+                a.append("+1")
+                break
+        if len(a) == 0:
+            embed.description = "{} This command can only be used by owners.".format(error_e)
+            await client.say(embed=embed)
+
+# }log <channel name>
+@client.command(pass_context=True)
+async def log(ctx, *, args = None):
+    embed = discord.Embed(colour=0x2F007F)
+    embed.set_footer(text=footer_text)
+    if len(started) == 0:
+        embed.description = "{} The bot is restarting. Please try again in a few seconds.".format(reload_e)
+        await client.say(embed=embed)
+    else:
+        author = ctx.message.author
+        a = []
+        for i in owner_roles:
+            if i in ctx.message.server.roles and i in ctx.message.author.roles:
+                embed.description = "Command not finished yet."
+                await client.say(embed=embed)
+                a.append("+1")
+                break
+        if len(a) == 0:
             embed.description = "{} This command can only be used by owners.".format(error_e)
             await client.say(embed=embed)
 
