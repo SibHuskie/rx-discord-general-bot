@@ -790,6 +790,7 @@ async def setrole(ctx, option = None, *, args = None):
                                     if b[0] == ctx.message.server.id:
                                         c = client.get_channel(b[1])
                                         await client.send_message(c, m)
+                                        break
                                 break
                             elif option.lower() != "member":
                                 async for o in client.logs_from(client.get_channel(t[option]), limit=limit):
@@ -812,6 +813,7 @@ async def setrole(ctx, option = None, *, args = None):
                                     if b[0] == ctx.message.server.id:
                                         c = client.get_channel(b[1])
                                         await client.send_message(c, m)
+                                        break
                                 break
                             else:
                                 await client.send_message(client.get_channel(t[option]), "{} | {}".format(ctx.message.server.id, u.id))
@@ -828,6 +830,7 @@ async def setrole(ctx, option = None, *, args = None):
                                     if b[0] == ctx.message.server.id:
                                         c = client.get_channel(b[1])
                                         await client.send_message(c, m)
+                                        break
                                 break
                     if len(p) == 0:
                         embed.description = "{} Role not found.".format(error_e)
@@ -878,7 +881,7 @@ async def selfroles(ctx, *, args = None):
                                     if b[0] == ctx.message.server.id:
                                         c = client.get_channel(b[1])
                                         await client.send_message(c, m)
-                                break
+                                        break
                             else:
                                 await client.send_message(client.get_channel(self_roles_chnl), "{} | {}".format(ctx.message.server.id, u.id))
                                 self_roles.append(u)
@@ -893,7 +896,7 @@ async def selfroles(ctx, *, args = None):
                                     if b[0] == ctx.message.server.id:
                                         c = client.get_channel(b[1])
                                         await client.send_message(c, m)
-                                break
+                                        break
                     if len(p) == 0:
                         embed.description = "{} Role not found.".format(error_e)
                         await client.edit_message(h, embed=embed)
