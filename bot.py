@@ -199,7 +199,7 @@ async def on_ready():
     m += "\n{} Ping: `{}ms`".format(pingok_e, round((t2-t1)*1000))
     await client.send_message(client.get_channel(log_chnl), m)
 
-# EVENT - JOIN / LEAVE
+# JOIN / LEAVE LOGS
 @client.async_event
 async def on_member_join(user: discord.User):
     embed = discord.Embed(colour=0x2F007F)
