@@ -14,7 +14,7 @@ bot_prefix = ["xg!", "}"]
 client = commands.Bot(command_prefix=bot_prefix)
 footer_text = "[Realm X] - [X General]"
 limit = 100000000000000000
-version = "3.0"
+version = "3.1"
 splitter = "**~~`====================`~~**"
 
 
@@ -571,7 +571,6 @@ async def tos(ctx):
         await client.say(embed=embed)
 
 ''' COMMANDS FOR PARTNER MANAGERS '''
-
 # }p <user>
 @client.command(pass_context=True)
 async def p(ctx, user: discord.Member = None):
@@ -627,6 +626,8 @@ async def p(ctx, user: discord.Member = None):
                                     await client.send_message(c, m)
                         a.append("+1")
                         break
+                if len(a) != 0:
+                    break
             if len(a) == 0:
                 embed.description = "{} This command can only be used by partner managers and staff.".format(error_e)
                 await client.say(embed=embed)
@@ -635,7 +636,6 @@ async def p(ctx, user: discord.Member = None):
             await client.say(embed=embed)
 
 ''' COMMANDS FOR MANAGERS '''
-
 # }rawsay <text>
 @client.command(pass_context=True)
 async def rawsay(ctx, *, args = None):
@@ -662,6 +662,8 @@ async def rawsay(ctx, *, args = None):
                         await client.delete_message(ctx.message)
                     a.append("+1")
                     break
+            if len(a) != 0:
+                break
         if len(a) == 0:
             embed.description = "{} This command can only be used by managers and owners.".format(error_e)
             await client.say(embed=embed)
@@ -711,6 +713,8 @@ async def embed(ctx, *, args = None):
                         embed.description = "{} The command was used incorrectly.\nProper usage: `title/none | description/none | name/none | value/none | footer/none`.".format(error_e)
                         await client.say(embed=embed)
                 a.append("+1")
+                break
+            if len(a) != 0:
                 break
         if len(a) == 0:
             embed.description = "{} This command can only be used by managers and owners.".format(error_e)
