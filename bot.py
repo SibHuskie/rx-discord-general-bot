@@ -767,7 +767,7 @@ async def setrole(ctx, option = None, *, args = None):
                             r.append(y[1])
                         if args.lower() in str(u.name.lower()):
                             p.append("+1")
-                            if "none" in r:
+                            if " | none" in r:
                                 async for o in client.logs_from(client.get_channel(t[option]), limit=limit):
                                     b = o.content.split(' | ')
                                     if b[0] == ctx.message.server.id and b[1] == u.id:
@@ -847,8 +847,52 @@ async def selfroles(ctx, *, args = None):
         a = []
         for i in owner_roles:
             if i in ctx.message.server.roles and i in ctx.message.author.roles:
-                embed.description = "Command not finished yet."
-                await client.say(embed=embed)
+                if args == None:
+                    embed.description = "{} No role name given.".format(error_e)
+                    await client.say(embed=embed)
+                else:
+                    embed.description = "{} Editing self roles database... {}".format(roles_e, loading_e)
+                    h = await client.say(embed=embed)
+                    p = []
+                    for u in ctx.message.server.roles:
+                        if args.lower() in str(u.name.lower()):
+                            p.append("+1")
+                            if u in self_roles:
+                                async for i in client.logs_from(client.get_channel(self_roles_chnl), limit=limit):
+                                    if i.content == "{} | {}".format(ctx.message.server.id, u.id):
+                                        await client.delete_message(i)
+                                        self_roles.remove(u)
+                                        break
+                                embed.description = "{} **{}** removed `{}` from the self roles list.".format(roles_e, author.name, u.name)
+                                await client.edit_message(h, embed=embed)
+                                m = splitter
+                                m += "\n{} **__Self Roles__** {}".format(log_e, roles_e)
+                                m += "\n`Author:` {} ### {}".format(author, author.id)
+                                m += "\n`Removed role:` {} ### {}".format(u.name, u.id)
+                                for o in logs:
+                                    b = o.split(' | ')
+                                    if b[0] == ctx.message.server.id:
+                                        c = client.get_channel(b[1])
+                                        await client.send_message(c, m)
+                                break
+                            else:
+                                await client.send_message(client.get_channel(self_roles_chnl), "{} | {}".format(ctx.message.server.id, u.id))
+                                self_roles.append(u)
+                                embed.description = "{} **{}** added `{}` to the self roles list.".format(roles_e, author.name, u.name)
+                                await client.edit_message(h, embed=embed)
+                                m = splitter
+                                m += "\n{} **__Self Roles__** {}".format(log_e, roles_e)
+                                m += "\n`Author:` {} ### {}".format(author, author.id)
+                                m += "\n`Added role:` {} ### {}".format(u.name, u.id)
+                                for o in logs:
+                                    b = o.split(' | ')
+                                    if b[0] == ctx.message.server.id:
+                                        c = client.get_channel(b[1])
+                                        await client.send_message(c, m)
+                                break
+                    if len(p) == 0:
+                        embed.description = "{} Role not found.".format(error_e)
+                        await client.edit_message(h, embed=embed)
                 a.append("+1")
                 break
         if len(a) == 0:
@@ -868,8 +912,41 @@ async def log(ctx, *, args = None):
         a = []
         for i in owner_roles:
             if i in ctx.message.server.roles and i in ctx.message.author.roles:
-                embed.description = "Command not finished yet."
-                await client.say(embed=embed)
+                if args == None:
+                    embed.description = "{} No channel name given.".format(error_e)
+                    await client.say(embed=embed)
+                else:
+                    embed.description = "{} Editing log channels database... {}".format(roles_e, loading_e)
+                    h = await client.say(embed=embed)
+                    p = []
+                    for u in ctx.message.server.channels:
+                        if args.lower() in str(u.name.lower()):
+                            p.append("+1")
+                            try:
+                                k = await client.send_message(u, "test log message")
+                                async for i in client.logs_from(client.get_channel(logs_chnl), limit=limit):
+                                    b = i.content.split(' | ')
+                                    if b[0] == ctx.message.server.id:
+                                        logs.remove(i.content)
+                                        await client.delete_message(i)
+                                        break
+                                await client.send_message(client.get_channel(logs_chnl), "{} | {}".format(ctx.message.server.id, u.id))
+                                logs.append("{} | {}".format(ctx.message.server.id, u.id))
+                                embed.description = "{} **{}** set `{}` as the new logs channel.".format(log_e, author.name, u.name)
+                                await client.edit_message(h, embed=embed)
+                                m = splitter
+                                m += "\n{} **__Log Channel__** {}".format(log_e, log_e)
+                                m += "\n`Author:` {} ### {}".format(author, author.id)
+                                m += "\n`New channel:` {} ### {}".format(u.name, u.id)
+                                await client.edit_message(k, m)
+                                break
+                            except:
+                                embed.description = "{} Unable to send logs in that channel ( `{}` ).".format(error_e, u.name)
+                                await client.edit_message(h, embed=embed)
+                                break
+                    if len(p) == 0:
+                        embed.description = "{} Channel not found.".format(error_e)
+                        await client.edit_message(h, embed=embed)
                 a.append("+1")
                 break
         if len(a) == 0:
